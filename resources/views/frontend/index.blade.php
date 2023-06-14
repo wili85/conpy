@@ -13,6 +13,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
         <style>
+			
+			.prueba{
+			
+			}
+			
             html, body {
                 background-color: #fff;
                 color: #636b6f;
