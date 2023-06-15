@@ -72,46 +72,80 @@
         @stack('after-styles')
     </head>
     <body>
+	
         @include('includes.partials.read-only')
         @include('includes.partials.logged-in-as')
-        @include('includes.partials.announcements')
-
-        <div id="app" class="flex-center position-ref full-height">
-            <div class="top-right links">
-                @auth
-                    @if ($logged_in_user->isUser())
-                        <a href="{{ route('frontend.user.dashboard') }}">@lang('Dashboard')</a>
-                    @endif
-
-                    <a href="{{ route('frontend.user.account') }}">@lang('Account')</a>
-                @else
-                    <a href="{{ route('frontend.auth.login') }}">@lang('Login')</a>
-
-                    @if (config('boilerplate.access.user.registration'))
-                        <a href="{{ route('frontend.auth.register') }}">@lang('Register')</a>
-                    @endif
-                @endauth
-            </div><!--top-right-->
-
-            <div class="content">
-                @include('includes.partials.messages')
-
-                <div class="title m-b-md">
-                    <example-component></example-component>
-                </div><!--title-->
-
-                <div class="links">
-                    <a href="http://laravel-boilerplate.com" target="_blank"><i class="fa fa-book"></i> @lang('Docs')</a>
-                    <a href="https://github.com/rappasoft/laravel-boilerplate" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                </div><!--links-->
-            </div><!--content-->
+        <!--
+		@include('includes.partials.announcements')
+		-->
+		@include('frontend.layouts.app')
+		
+		<div class="container col-sm-12">
+		
+        <div id="app" class="">
+            
+			<div class="row mb-3">
+				<div class="col">
+					<div class="card">
+						<div class="card-header">
+							<strong>
+								<i style="padding:15px 0px" class="fas fa-tachometer-alt"></i> FELMO SRL TDA
+							</strong>
+						</div><!--card-header-->
+		
+						<div class="card-body">
+							<div class="row">
+		
+								<div class="col-md-12 order-2 order-sm-1">
+									<br />
+									<div class="card-header">
+											<i style="padding:15px 0px" class=""></i> Lema del trabajador de FELMO SRA TDA 
+											<strong>"</strong>
+												Honestidad Trabajo y Honradez
+											<strong>"</strong>
+									</div>
+									<br />
+									
+									<div class="row">
+										<div class="col">
+											<div class="card mb-4">
+												<div class="card-header">
+													MISI&Oacute;N
+												</div><!--card-header-->
+		
+												<div class="card-body">
+													Brindar un servicio de calidad dentro de la cadena de comercializaci&oacute;n de productos hidrobiol&oacute;gicos, estandarizando los puntos de control para garantizar la calidad e inocuidad del producto.
+												</div><!--card-body-->
+											</div><!--card-->
+										</div><!--col-md-6-->
+									</div><!--row-->
+		
+									<div class="row">
+										<div class="col">
+											<div class="card mb-4">
+												<div class="card-header">
+													VISI&Oacute;N
+												</div><!--card-header-->
+		
+												<div class="card-body">
+													Ser el mercado mayorista modelo de la regi&oacute;n en administraci&oacute;n y servicios para el expendio de productos hidrobiol&oacute;gicos.
+												</div><!--card-body-->
+											</div><!--card-->
+										</div><!--col-md-6-->
+									</div><!--row-->
+		
+									
+								</div><!--col-md-8-->
+							</div><!-- row -->
+						</div> <!-- card-body -->
+					</div><!-- card -->
+				</div><!-- row -->
+			</div><!-- row -->
+            
+			
         </div><!--app-->
-
-        @stack('before-scripts')
-        <script src="{{ mix('js/manifest.js') }}"></script>
-        <script src="{{ mix('js/vendor.js') }}"></script>
-        <script src="{{ mix('js/frontend.js') }}"></script>
-        @stack('after-scripts')
+		
+        
     </body>
 </html>
 
