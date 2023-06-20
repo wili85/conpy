@@ -89,7 +89,7 @@
 					<div class="card">
 						<div class="card-header">
 							<strong>
-								<i style="padding:15px 0px" class="fas fa-tachometer-alt"></i> FELMO SRL TDA
+								<i style="padding:15px 0px" class="fas fa-tachometer-alt"></i> SMART RECOVERY GI-SAC 
 							</strong>
 						</div><!--card-header-->
 		
@@ -99,9 +99,9 @@
 								<div class="col-md-12 order-2 order-sm-1">
 									<br />
 									<div class="card-header">
-											<i style="padding:15px 0px" class=""></i> Lema del trabajador de FELMO SRA TDA 
+											<i style="padding:15px 0px" class=""></i> Lema del trabajador de SMART RECOVERY GI-SAC 
 											<strong>"</strong>
-												Honestidad Trabajo y Honradez
+												Honestidad, Trabajo y lealtad
 											<strong>"</strong>
 									</div>
 									<br />
@@ -114,7 +114,7 @@
 												</div><!--card-header-->
 		
 												<div class="card-body">
-													Brindar un servicio de calidad dentro de la cadena de comercializaci&oacute;n de productos hidrobiol&oacute;gicos, estandarizando los puntos de control para garantizar la calidad e inocuidad del producto.
+													Brindar un servicio de calidad a los inversionistas dentro del proceso de Gesti&oacute;n Inmobiliaria,  propiciando la transparencia en todo el proceso.
 												</div><!--card-body-->
 											</div><!--card-->
 										</div><!--col-md-6-->
@@ -128,7 +128,7 @@
 												</div><!--card-header-->
 		
 												<div class="card-body">
-													Ser el mercado mayorista modelo de la regi&oacute;n en administraci&oacute;n y servicios para el expendio de productos hidrobiol&oacute;gicos.
+													Ser la empresa modelo en Gesti&oacute;n Inmobiliaria y recuperaci&oacute;n de activos.
 												</div><!--card-body-->
 											</div><!--card-->
 										</div><!--col-md-6-->
