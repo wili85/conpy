@@ -60,7 +60,7 @@
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownPrueba" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">Proyectos</a>
                        <div class="dropdown-menu" aria-labelledby="navbarDropdownPrueba">
-					   		<a href="" class="dropdown-item">Registro de Proyectos</a>
+					   		<a href="/proyecto" class="dropdown-item">Registro de Proyectos</a>
 							<a href="" class="dropdown-item">Consulta de Proyectos</a>
                        </div>
                 </li>

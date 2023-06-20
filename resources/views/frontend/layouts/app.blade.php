@@ -25,6 +25,7 @@
 	
     <div id="app">
         @include('frontend.includes.nav')
+		@yield('breadcrumb')
         @include('includes.partials.messages')
 
         <main>
