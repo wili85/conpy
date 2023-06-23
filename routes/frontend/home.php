@@ -33,6 +33,10 @@ Route::get('terms', [TermsController::class, 'index'])
 
 Route::get('proyecto', [ProyectoController::class, 'index'])->name('proyecto');
 Route::get('proyecto/modal/{id}', [ProyectoController::class, 'modal'])->name('proyecto.modal');
+Route::post('proyecto/upload', [ProyectoController::class, 'upload'])->name('proyecto.upload');
+Route::get('proyecto/obtener_provincia/{id}', [ProyectoController::class, 'obtener_provincia'])->name('proyecto.obtener_provincia');
+Route::get('proyecto/obtener_distrito/{id}', [ProyectoController::class, 'obtener_distrito'])->name('proyecto.obtener_distrito');
+
 
 
 
