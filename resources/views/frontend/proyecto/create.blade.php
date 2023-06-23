@@ -476,13 +476,13 @@ label.form-control-sm{
 												
 													<div class="col-lg-12">
 														<div class="form-group" style="text-align:center">
-															<span class="btn btn-md btn-warning btn-file">
+															<span class="btn btn-sm btn-warning btn-file">
 																Examinar <input id="image" name="image" type="file" />
 															</span>
 							
 															<input type="hidden" id="ind_img" name="ind_img" value="1" />
 															
-															<input type="button" class="btn btn-md btn-primary upload" value="Subir" style="margin-left:10px">
+															<input type="button" class="btn btn-sm btn-primary upload" value="Subir" style="margin-left:10px">
 							
 															<!--<input type="button" class="btn btn-sm btn-danger delete" value="Eliminar" style="margin-left:10px">-->
 															
