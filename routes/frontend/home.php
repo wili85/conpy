@@ -36,6 +36,8 @@ Route::get('proyecto/modal/{id}', [ProyectoController::class, 'modal'])->name('p
 Route::post('proyecto/upload', [ProyectoController::class, 'upload'])->name('proyecto.upload');
 Route::get('proyecto/obtener_provincia/{id}', [ProyectoController::class, 'obtener_provincia'])->name('proyecto.obtener_provincia');
 Route::get('proyecto/obtener_distrito/{id}', [ProyectoController::class, 'obtener_distrito'])->name('proyecto.obtener_distrito');
+Route::post('proyecto/send', [ProyectoController::class, 'send'])->name('proyecto.send');
+Route::post('proyecto/listar_proyecto_ajax', [ProyectoController::class, 'listar_proyecto_ajax'])->name('proyecto.listar_proyecto_ajax');
 
 
 

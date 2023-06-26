@@ -20,9 +20,9 @@ $(document).ready(function () {
 		fn_ListarBusqueda();
 	});
 	
+	/*
 	$('#fecha_desde').datepicker({
         autoclose: true,
-		//dateFormat: 'dd-mm-yy',
 		format: 'dd/mm/yyyy',
 		changeMonth: true,
 		changeYear: true,
@@ -30,12 +30,11 @@ $(document).ready(function () {
 	
 	$('#fecha_hasta').datepicker({
         autoclose: true,
-		//dateFormat: 'dd-mm-yy',
 		format: 'dd/mm/yyyy',
 		changeMonth: true,
 		changeYear: true,
     });
-	
+	*/
 	
 });
 
@@ -74,8 +73,8 @@ function aperturar(accion){
     });
 }
 
-function guardarValorizacion(){
-    
+function guardar_proyecto(){
+    //alert("cvvfv");
     var msg = "";
     
 	fn_save();
@@ -83,15 +82,16 @@ function guardarValorizacion(){
 
 function fn_save(){
     
-    //var fecha_atencion_original = $('#fecha_atencion').val();
-	//var id_user = $('#id_user').val();
     $.ajax({
-			url: "/ingreso/send",
+			url: "/proyecto/send",
             type: "POST",
             //data : $("#frmCita").serialize()+"&id_medico="+id_medico+"&fecha_cita="+fecha_cita,
-            data : $("#frmValorizacion").serialize(),
+            data : $("#frmProyecto").serialize(),
             success: function (result) {  
-                    /*$('#openOverlayOpc').modal('hide');
+                    
+					window.location.reload();
+					//Limpiar();
+					/*$('#openOverlayOpc').modal('hide');
 					$('#calendar').fullCalendar("refetchEvents");
 					modalDelegar(fecha_atencion_original);*/
 					//modalTurnos();
@@ -100,6 +100,26 @@ function fn_save(){
             }
     });
 }
+
+function Limpiar(){
+	
+	//$('#tblProductos tbody').html("");
+	//$('#id_solicitud').val("0");
+	$('#nombre_py').val("");
+	$('#detalle_py').val("");
+	$('#txtIdUbiDepar').val("");
+	$('#txtIdUbiProv').html('<option value="">- Seleccione -</option>');
+	$('#ubigeodireccionprincipal').html('<option value="">- Seleccione -</option>');
+	
+	var newRow = "";
+	newRow += '<img src="" id="img_ruta_1" width="130px" height="165px" alt="" style="text-align:center;margin-top:8px;display:none;margin-left:10px" />';
+	newRow += '<input type="hidden" id="img_foto_1" name="img_foto[]" value="" />';
+	$('#divImagenes').html(newRow);
+	
+	
+}
+
+
 
 function validaTipoDocumento(){
 	var tipo_documento = $("#tipo_documento").val();
@@ -993,134 +1013,8 @@ $(document).ready(function () {
 
 	$('#persona_nuevo_dueno_carga').focusin(function() { $('#persona_nuevo_dueno_carga').select(); });
 	
-	$('#vehiculo_empresa').autocomplete({
-	appendTo: "#vehiculo_empresa_busqueda",
-    source: function(request, response) {
-        $.ajax({
-        url: 'list/'+$('#vehiculo_empresa').val(),
-        dataType: "json",
-        success: function(data){
-        // alert(JSON.stringify(data));
-           var resp = $.map(data,function(obj){
-                // console.log(obj.id);
-				var hash = {key: obj.id, value: obj.razon_social};
-				if(obj.razon_social=='') { actualiza_ruc("") }
-                return hash;
-           }); 
-           //alert(JSON.stringify(resp));
-           //console.log(JSON.stringify(resp));
-           response(resp);
-		},
-		error: function() {
-			actualiza_ruc("");
-		}
-    });
-    },
-    select: function (event, ui) {
-      // $("#vehiculo_empresa").val(ui.item.value);
-	  $('#vehiculo_empresa').blur();
-	  //alert(ui.item.value);
-	  if (ui.item.value != ''){
-		actualiza_ruc(ui.item.value);
-		$("#modalVehiculoSaveBtn").attr("disabled", false);;
-	  }
-      $("#vehiculo_empresa_id").val(ui.item.key); // save selected id to hidden input
-	  
-    },
-		minLength: 2,
-		delay: 100
-  });
-
-
-	$('#empresa_nuevo_dueno_carga').autocomplete({
-		appendTo: "#empresa_nuevo_dueno_carga_busqueda",
-		source: function(request, response) {
-			$.ajax({
-			url: 'list/'+$('#empresa_nuevo_dueno_carga').val(),
-			dataType: "json",
-			success: function(data){
-			// alert(JSON.stringify(data));
-			   var resp = $.map(data,function(obj){
-					// console.log(obj.id);
-					var hash = {key: obj.id, direccion: obj.direccion, ruc: obj.ruc, razon_social: obj.razon_social, value: obj.razon_social, id_ubicacion: obj.id_ubicacion};
-					return hash;
-			   }); 
-			   //alert(JSON.stringify(resp));
-			   console.log(JSON.stringify(resp));
-			   response(resp);
-			}
-		});
-		},
-		select: function (event, ui) {
-		  // $("#vehiculo_empresa").val(ui.item.value);
-		  // $('#vehiculo_empresa').blur();
-		  //alert(ui.item.id_ubicacion); 
-		  $("#id_ubicacion").val(ui.item.id_ubicacion);
-		  $('#persona_id').val(0);
-		  $("#numero_ruc_dni").val(ui.item.ruc); // save selected id to hidden input
-  		  $("#modalNuevoDuenoCargaSaveBtn").removeClass('btn-primary').addClass('btn-success');
-		  $("#modalNuevoDuenoCargaSaveBtn").html("Confirmar datos");
-		  
-		},
-			minLength: 2,
-			delay: 100
-	  });
-
-      $('#persona_nuevo_dueno_carga').autocomplete({
-		appendTo: "#empresa_nuevo_dueno_carga_busqueda",
-		source: function(request, response) {
-			$.ajax({
-			url: 'listar_personas/'+$('#persona_nuevo_dueno_carga').val(),
-			dataType: "json",
-			success: function(data){
-			// alert(JSON.stringify(data));
-			   var resp = $.map(data,function(obj){
-					// console.log(obj.id);
-					var hash = {key: obj.id, numero_documento: obj.numero_documento, value: obj.apellido_paterno+" "+obj.apellido_materno+", "+obj.nombres,id_ubicacion:obj.id_ubicacion};
-					return hash;
-			   }); 
-			   //alert(JSON.stringify(resp));
-			   console.log(JSON.stringify(resp));
-			   response(resp);
-			}
-		});
-		},
-		select: function (event, ui) {
-		  // $("#vehiculo_empresa").val(ui.item.value);
-		  // $('#vehiculo_empresa').blur();
-		  $("#id_ubicacion").val(ui.item.id_ubicacion);
-		  $('#persona_id').val(ui.item.key);
-		  $("#numero_ruc_dni").val(ui.item.numero_documento); // save selected id to hidden input
-  		  $("#modalNuevoDuenoCargaSaveBtn").removeClass('btn-primary').addClass('btn-success');
-		  $("#modalNuevoDuenoCargaSaveBtn").html("Confirmar datos");
-		},
-			minLength: 4,
-			delay: 100
-      });
-      
-	$('#producto01').autocomplete({
-		appendTo: "#producto01_list",
-		source: function(request, response) {
-			$.ajax({
-			url: 'producto/'+$('#producto01').val(),
-			dataType: "json",
-			success: function(data){
-        // alert(JSON.stringify(data));
-          var resp = $.map(data,function(obj){
-            console.log(obj);
-            return obj.denominacion;
-          }); 
-          //alert(JSON.stringify(resp));
-          //console.log(JSON.stringify(resp));
-          response(resp);
-        }
-      });
-      },
-    minLength: 1,
-    delay: 100
-        });
-        
-    $('#btn_guardar').click(function (e) {
+	
+	$('#btn_guardar___').click(function (e) {
         e.preventDefault();
         msg = "";
 
@@ -1718,7 +1612,7 @@ function ocultar_solicitud(){
 function datatablenew(){
     var oTable = $('#tblSolicitud').dataTable({
         "bServerSide": true,
-        "sAjaxSource": "/solicitud/listar_solicitud_ajax",
+        "sAjaxSource": "/proyecto/listar_proyecto_ajax",
         "bProcessing": true,
         "sPaginationType": "full_numbers",
         "bFilter": false,
@@ -1743,11 +1637,10 @@ function datatablenew(){
             var iNroPagina 	= parseFloat(fn_util_obtieneNroPagina(aoData[3].value, aoData[4].value)).toFixed();
             var iCantMostrar 	= aoData[4].value;
 			
-			var numero_documento = $('#numero_documento_buscar').val();
-			var nombre = $('#nombre_buscar').val();
-			var fecha_desde = $('#fecha_desde').val();
-			var fecha_hasta = $('#fecha_hasta').val();
-			var id_estado = $('#id_estado').val();
+			var nombre_py_bus = $('#nombre_py_bus').val();
+			var detalle_py_bus = $('#detalle_py_bus').val();
+			var estado = $('#estado').val();
+			//var id_estado = $('#id_estado').val();
 			
 			var _token = $('#_token').val();
             oSettings.jqXHR = $.ajax({
@@ -1755,8 +1648,8 @@ function datatablenew(){
                 "type": "POST",
                 "url": sSource,
                 "data":{NumeroPagina:iNroPagina,NumeroRegistros:iCantMostrar,
-						numero_documento:numero_documento,nombre:nombre,
-						fecha_desde:fecha_desde,fecha_hasta:fecha_hasta,id_estado:id_estado,
+						nombre_py_bus:nombre_py_bus,detalle_py_bus:detalle_py_bus,
+						estado:estado,/*id_estado:id_estado,*/
 						_token:_token
                        },
                 "success": function (result) {
@@ -1779,161 +1672,68 @@ function datatablenew(){
         "aoColumnDefs":
             [	
 			 	{
-                "mRender": function (data, type, row) {
-                       var rowIndex = oTable.fnGetData().length - 1;
-                       var strNameIdImg = 'ima_1_' + rowIndex;
-                       var strHtml = "<img id='" + strNameIdImg + "' src='/img/details_open.png' style='cursor:pointer;' title='Editar' onclick=fn_AbrirDetalle(" + rowIndex + ",'" + row.id +"') />";
-                       return strHtml;
-                   },
-                "bSortable": false,
-                "aTargets": [0],
-				"className": "dt-center",
-                },
-			 	{
-                "mRender": function (data, type, row, meta) {
-					
-					//var rowIndex = meta.row+1;
-					//alert(rowIndex);
-            		//$('#tblSolicitud tbody tr:nth-child('+rowIndex+')').addClass('verde');
-					//$(row).addClass('verde');
-			
+                "mRender": function (data, type, row, meta) {	
                 	var id = "";
 					if(row.id!= null)id = row.id;
 					return id;
                 },
                 "bSortable": false,
-                "aTargets": [1]
+                "aTargets": [0]
                 },
 				{
                 "mRender": function (data, type, row) {
-                	var fecha_solicitud = "";
-					if(row.fecha_solicitud!= null)fecha_solicitud = row.fecha_solicitud;
-					return fecha_solicitud;
+                	var nombre_py = "";
+					if(row.nombre_py!= null)nombre_py = row.nombre_py;
+					return nombre_py;
+                },
+                "bSortable": false,
+                "aTargets": [1],
+				},
+				{
+                "mRender": function (data, type, row) {
+					var detalle_py = "";
+					if(row.detalle_py!= null)detalle_py = row.detalle_py;
+					return detalle_py;
                 },
                 "bSortable": false,
                 "aTargets": [2],
-				//"className": "dt-center",
-				//"className": 'control'
                 },
 				{
                 "mRender": function (data, type, row) {
-					var numero_documento = "";
-					if(row.numero_documento!= null)numero_documento = row.numero_documento;
-					return numero_documento;
+                    var departamento = "";
+					if(row.departamento!= null)departamento = row.departamento;
+					return departamento;
                 },
                 "bSortable": false,
-                "aTargets": [3],
+                "aTargets": [3]
                 },
-				{
+                {
                 "mRender": function (data, type, row) {
-                    var nombre = "";
-					if(row.nombres!= null)nombre = row.nombres+" "+row.apellido_paterno+" "+row.apellido_materno;
-					return nombre;
+                	var provincia = "";
+					if(row.provincia!= null)provincia = row.provincia;
+					return provincia;
                 },
                 "bSortable": false,
                 "aTargets": [4]
                 },
-                /*{
+				{
                 "mRender": function (data, type, row) {
-					var origen = "";
-					if(row.origen!= null)origen = row.origen;
-					return origen;
-                },
-                "bSortable": false,
-                "aTargets": [4],
-                },*/
-                {
-                "mRender": function (data, type, row) {
-                	var motivo = "";
-					if(row.motivo!= null)motivo = row.motivo;
-					return motivo;
+                	var distrito = "";
+					if(row.distrito!= null)distrito = row.distrito;
+					return distrito;
                 },
                 "bSortable": false,
                 "aTargets": [5]
                 },
 				{
                 "mRender": function (data, type, row) {
-                	var tiempo_pago = "";
-					if(row.tiempo_pago!= null)tiempo_pago = row.tiempo_pago;
-					return tiempo_pago;
-                },
-                "bSortable": false,
-                "aTargets": [6]
-                },
-				{
-                "mRender": function (data, type, row) {
-                	var periodo = "";
-					if(row.periodo!= null)periodo = row.periodo;
-					return periodo;
-                },
-                "bSortable": false,
-                "aTargets": [7]
-                },
-				{
-                "mRender": function (data, type, row) {
-                	var nro_cuota = "";
-					//if(row.periodo_valor!= null)cuotas = row.periodo_valor * row.tiempo_pago;
-					if(row.nro_cuota!= null)nro_cuota = row.nro_cuota;
-					return nro_cuota;
-                },
-                "bSortable": false,
-                "aTargets": [8]
-                },
-				{
-                "mRender": function (data, type, row) {
-                	var moneda = "";
-					if(row.moneda!= null)moneda = row.moneda;
-					return moneda;
-                },
-                "bSortable": false,
-                "aTargets": [9]
-                },
-				{
-                "mRender": function (data, type, row) {
-                	var monto_solicitado = "";
-					if(row.monto_solicitado!= null)monto_solicitado = row.monto_solicitado;
-					return monto_solicitado;
-                },
-                "bSortable": false,
-                "aTargets": [10],
-				"className": "dt-center",
-                },
-				{
-                "mRender": function (data, type, row) {
-                	var monto_valorizado = "";
-					if(row.monto_valorizado!= null)monto_valorizado = row.monto_valorizado;
-					return monto_valorizado;
-                },
-                "bSortable": false,
-                "aTargets": [11],
-				"className": "dt-center",
-                },
-				{
-                "mRender": function (data, type, row) {
-                	var monto_aprobado = "";
-					if(row.monto_aprobado!= null)monto_aprobado = row.monto_aprobado;
-					return monto_aprobado;
-                },
-                "bSortable": false,
-                "aTargets": [12],
-				"className": "dt-center",
-                },
-				{
-                "mRender": function (data, type, row) {
-                    var estado = "";
-					if(row.id_estado!= null){
-						if(row.id_estado==1)estado = "PENDIENTE";
-						if(row.id_estado==2)estado = "VALORIZADO";
-						if(row.id_estado==3)estado = "APROBADO";
-						if(row.id_estado==4)estado = "RECHAZADO";
-						if(row.id_estado==5)estado = "DESEMBOLSADO";
-						//if(row.id_estado==6)estado = "RECHAZADO";
-					}
+                	var estado = "";
+					if(row.estado==1)estado = "Activo";
+					if(row.estado==0)estado = "Inactivo";
 					return estado;
                 },
                 "bSortable": false,
-                "aTargets": [13],
-				"className": 'control'
+                "aTargets": [6]
                 },
 				
             ]
@@ -1961,6 +1761,7 @@ function datatablenew(){
         }
     });
 	
+	/*
 	if(aprobador == true){
 		$('#tblSolicitud tbody').on('dblclick', 'tr', function () {
 			var anSelected = fn_util_ObtenerNumeroFila(oTable);
@@ -1978,7 +1779,7 @@ function datatablenew(){
 			}
 		});
 	}
-	
+	*/
 }
 
 
@@ -2486,51 +2287,6 @@ function obtener_cuota(obj){
 		var nro_cuota = freecuencia_pago * tiempo_pago;
 		$('#nro_cuota').val(nro_cuota);
 	}
-	
-}
-
-function Limpiar(){
-	
-	$('#tblProductos tbody').html("");
-	$('#id_solicitud').val("0");
-	$('#estado').val("0");
-	$('#tipo_documento').val("DNI");
-	$('#numero_documento').val("");
-	$('#nombres').val("");
-	$('#telefono').val("");
-	$('#email').val("");
-	$('#monto_solicitado').val("");
-	$('#tiempo_pago').val("1");
-	$('#nro_cuota').val("12");
-	$('#freecuencia_pago').val("117");
-	
-	$('#telefono').attr("disabled",true);
-	$('#email').attr("disabled",true);
-	$('#nombres').attr("disabled",true).attr("placeholder","");
-	
-	$('#divApellidoP').hide();
-	$('#divApellidoM').hide();
-	$('#apellidop').val("");
-	$('#apellidom').val("");
-	
-	$('#tipo_documento_c').val("DNI");
-	$('#numero_documento_c').val("");
-	$('#nombres_c').val("");
-	$('#apellidop_c').val("");
-	$('#apellidom_c').val("");
-	$('#id_parentesco').val("0");
-	$('#telefono_c').val("");
-	$('#direccion_c').val("");
-	$('#referencia_c').val("");
-	
-	$('#tipo_documento_a').val("DNI");
-	$('#numero_documento_a').val("");
-	$('#nombres_a').val("");
-	$('#apellidop_a').val("");
-	$('#apellidom_a').val("");
-	$('#telefono_a').val("");
-	$('#direccion_a').val("");
-	$('#referencia_a').val("");
 	
 }
 

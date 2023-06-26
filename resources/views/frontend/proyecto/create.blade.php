@@ -305,7 +305,7 @@ label.form-control-sm{
 
         <div class="card-body">
 
-            <form class="form-horizontal" method="post" action="" id="frmSolicitud" autocomplete="off" enctype="multipart/form-data">
+            <form class="form-horizontal" method="post" action="" id="frmProyecto" autocomplete="off" enctype="multipart/form-data">
 				<!--
                 <div class="row">
                     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12" style="margin-top:15px">
@@ -324,8 +324,8 @@ label.form-control-sm{
 
                         <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
 
-                        <input type="hidden" name="id_solicitud" id="id_solicitud" value="0">
-                        <input type="hidden" name="estado" id="estado" value="0">
+                        <input type="hidden" name="id_proyecto" id="id_proyecto" value="0">
+                        <!--<input type="hidden" name="estado" id="estado" value="0">-->
 						
                         <div class="row" id="divSolicitud">
 							
@@ -355,13 +355,13 @@ label.form-control-sm{
 												
 													<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
 														<label class="form-control-sm">Id Proyecto</label>
-														<input type="text" name="numero_documento" id="numero_documento"
+														<input type="text" name="id" id="id"
 															value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
 													</div>
 													
 													<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
 														<label class="form-control-sm">Nombre del Proyecto</label>
-														<input type="text" name="numero_documento" id="numero_documento"
+														<input type="text" name="nombre_py" id="nombre_py"
 															value="" placeholder="" class="form-control form-control-sm" >
 													</div>
 																	
@@ -372,7 +372,7 @@ label.form-control-sm{
 													<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 														<div class="form-group">
 															<label class="form-control-sm">Detalle del Proyecto</label>
-															<textarea type="text" name="nombres" id="nombres" rows="7"
+															<textarea type="text" name="detalle_py" id="detalle_py" rows="7"
 															placeholder="" class="form-control form-control-sm"></textarea>
 														</div>
 													</div>
@@ -439,11 +439,27 @@ label.form-control-sm{
 															//}
 															?>
 														</select>
+														<!--
 														<input type="hidden" name="ubigeodireccionprincipalold" id="ubigeodireccionprincipalold" value="<?php //echo $asegurado->ubigeodireccionprincipal?>" >
+														-->
 														
 													</div>
 													
                                                 </div>
+												
+												
+												
+												<div class="row" style="padding-top:15px">
+                                                    
+                                                    <div class="col-xl-12 text-right">
+                                                        <input class="btn btn-danger pull-rigth" value="GUARDAR" name="guardar" type="button" id="btnGuardar" onclick="guardar_proyecto()" />
+                                                        
+                                                    </div>
+                                                    <!--col-->
+                                                </div>
+												
+												
+												
 
                                             </div>
                                             <!--card-body-->
@@ -468,7 +484,7 @@ label.form-control-sm{
 												<div class="wrapper">
   													<div id="divImagenes" class="scrolls">
 														<img src="" id="img_ruta_1" width="130px" height="165px" alt="" style="text-align:center;margin-top:8px;display:none;margin-left:10px" />
-														<input type="hidden" id="img_foto_1" name="img_foto_1" value="" />
+														<input type="hidden" id="img_foto_1" name="img_foto[]" value="" />
 													</div>
 												</div>
 												
@@ -503,9 +519,12 @@ label.form-control-sm{
                                                         </div>
                                                     </div>
                                                 </div>
-												-->
 												
 												<a class='flotante' name="guardar" id="guardar" onclick="guardarSolicitud()" href='#' ><img src='/img/btn_save.png' border="0"/></a>
+												
+												-->
+												
+												
 
 
                                             </div>
@@ -532,27 +551,28 @@ label.form-control-sm{
 						<div class="card">
 						
 						<div class="card-header">
-							<strong>Lista de Solicitudes</strong>
+							<strong>Lista de Proyectos</strong>
 						</div>
 						
 						<div class="row col align-self-center" style="padding:10px 20px 10px 20px;">
 					
 							<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-								<input class="form-control form-control-sm" id="numero_documento_buscar" name="numero_documento_buscar" placeholder="Doc. Identidad">
+								<input class="form-control form-control-sm" id="nombre_py_bus" name="nombre_py_bus" placeholder="Nombre del Proyecto">
 							</div>
 							
 							<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-								<input class="form-control form-control-sm" id="nombre_buscar" name="nombre_buscar" placeholder="Nombre">
+								<input class="form-control form-control-sm" id="detalle_py_bus" name="detalle_py_bus" placeholder="Detalle del Proyecto">
 							</div>
 							
-							<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-								<input class="form-control form-control-sm" id="fecha_desde" name="fecha_desde" placeholder="Fecha Desde">
+							<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+								<select name="estado" id="estado" class="form-control form-control-sm" onchange="">
+									<option value="">Todos</option>
+									<option value="1">ACTIVO</option>
+									<option value="0">INACTIVO</option>
+								</select>
 							</div>
 							
-							<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-								<input class="form-control form-control-sm" id="fecha_hasta" name="fecha_hasta" placeholder="Fecha Hasta">
-							</div>
-							
+							<!--
 							<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
 								<select name="id_estado" id="id_estado" class="form-control form-control-sm" onchange="">
 									<option value="0">Todos</option>
@@ -563,7 +583,7 @@ label.form-control-sm{
 									<option value="5">DESEMBOLSADO</option>
 								</select>
 							</div>
-							
+							-->
 							<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
 								<input class="btn btn-warning btn-sm pull-rigth" value="Buscar" type="button" id="btnBuscar" />
 							</div>
@@ -577,20 +597,12 @@ label.form-control-sm{
 							<table id="tblSolicitud" class="table table-hover table-sm">
 							<thead>
 							<tr style="font-size:13px">
-								<th></th>
 								<th>Id</th>
-								<th>Fecha</th>
-								<th>Documento</th>
-								<th>Nombre</th>
-								<!--<th>Origen</th>-->
-								<th>Tipo</th>
-								<th>A&ntilde;os</th>
-								<th>Periodo</th>
-								<th>Cuotas</th>
-								<th>Moneda</th>
-								<th>Monto Solicitado</th>
-								<th>Monto Valorizado</th>
-								<th>Monto Aprobado</th>
+								<th>Nombre Proyecto</th>
+								<th>Detalle Proyecto</th>
+								<th>Departamento</th>
+								<th>Provincia</th>
+								<th>Distrito</th>
 								<th>Estado</th>
 							</tr>
 							</thead>
@@ -684,7 +696,7 @@ label.form-control-sm{
 						
 						var newRow = "";
 						newRow += '<img src="" id="img_ruta_'+ind_img+'" width="130px" height="165px" alt="" style="text-align:center;margin-top:8px;display:none;margin-left:10px" />';
-						newRow += '<input type="hidden" id="img_foto_'+ind_img+'" name="img_foto_'+ind_img+'" value="" />';
+						newRow += '<input type="hidden" id="img_foto_'+ind_img+'" name="img_foto[]" value="" />';
 						
 						$("#divImagenes").append(newRow);
 						$("#ind_img").val(ind_img);
@@ -708,15 +720,4 @@ label.form-control-sm{
 	
 	<script src="{{ asset('js/proyecto/create.js') }}"></script>
 	
-	<script type="text/javascript">
-	var valorizador = false;
-	@hasanyrole('valorizador')
-	var valorizador = true;
-	@endhasanyrole
-	
-	var aprobador = false;
-	@hasanyrole('aprobador')
-	var aprobador = true;
-	@endhasanyrole
-	</script>
-    @endpush
+	@endpush
