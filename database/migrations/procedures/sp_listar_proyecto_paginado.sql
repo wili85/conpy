@@ -1,5 +1,4 @@
-﻿
-CREATE OR REPLACE FUNCTION public.sp_listar_proyecto_paginado(p_nombre_py character varying, p_detalle_py character varying, p_estado character varying, p_pagina character varying, p_limit character varying, p_ref refcursor)
+﻿CREATE OR REPLACE FUNCTION public.sp_listar_proyecto_paginado(p_nombre_py character varying, p_detalle_py character varying, p_estado character varying, p_estado_py character varying, p_pagina character varying, p_limit character varying, p_ref refcursor)
  RETURNS refcursor
  LANGUAGE plpgsql
 AS $function$
@@ -19,10 +18,11 @@ Begin
 
 	p_pagina=(p_pagina::Integer-1)*p_limit::Integer;
 	
-	v_campos=' p.id,p.nombre_py,p.detalle_py,p.cod_ubigeo,u.departamento,u.provincia,u.distrito,p.estado ';
+	v_campos=' p.id,p.nombre_py,p.detalle_py,p.cod_ubigeo,u.departamento,u.provincia,u.distrito,p.estado,tm.denominacion estado_py ';
 
 	v_tabla='from proyectos p
-			inner join ubigeos u on p.cod_ubigeo=u.id_reniec ';
+			inner join ubigeos u on p.cod_ubigeo=u.id_reniec
+			inner join tabla_maestras tm on tm.codigo=p.estado_py and tm.tipo=''EST_PY''  ';
 	
 	v_where = ' Where 1=1  ';
 	
@@ -36,6 +36,10 @@ Begin
 
 	If p_estado<>'' Then
 	 v_where:=v_where||'And p.estado = '''||p_estado||''' ';
+	End If;
+
+	If p_estado_py<>'' Then
+	 v_where:=v_where||'And p.estado_py = '''||p_estado_py||''' ';
 	End If;
 	
 	EXECUTE ('SELECT count(1) '||v_tabla||v_where) INTO v_count;
