@@ -31,6 +31,28 @@ class Proyecto extends Model
         return $data;
 	}
 	
+	function getProyectoById($id){
+
+        $cad = "select p.id,p.nombre_py,p.detalle_py,p.cod_ubigeo,u.departamento,u.provincia,u.distrito,p.estado,p.estado_py 
+from proyectos p
+inner join ubigeos u on p.cod_ubigeo=u.id_reniec
+where p.id=".$id;
+    
+		$data = DB::select($cad);
+        return $data[0];
+    }
+	
+	function getProyectoImagenById($id){
+
+        $cad = "select id,id_proyecto,ruta  
+from proyecto_imagenes pi2 
+where estado='1'
+and id_proyecto=".$id;
+
+		$data = DB::select($cad);
+        return $data;
+    }
+	
 	public function listar_proyecto_ajax($p){
 		return $this->readFunctionPostgres('sp_listar_proyecto_paginado',$p);
     }

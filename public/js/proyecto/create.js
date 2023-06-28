@@ -8,8 +8,14 @@ $(document).ready(function () {
 	});
 	
 	$('#btnNuevo').on('click', function () {
-		Limpiar();
+		//Limpiar();
+		window.location.reload();
 	});
+	/*
+	$('.delete_ruta').on('click', function () {
+		DeleteImagen(this);
+	});
+	*/
 	
 	$('#tblProductos tbody').on('click', 'button.deleteFila', function () {
 		var obj = $(this);
@@ -111,15 +117,24 @@ function Limpiar(){
 	$('#txtIdUbiProv').html('<option value="">- Seleccione -</option>');
 	$('#ubigeodireccionprincipal').html('<option value="">- Seleccione -</option>');
 	
+	/*
 	var newRow = "";
-	newRow += '<img src="" id="img_ruta_1" width="130px" height="165px" alt="" style="text-align:center;margin-top:8px;display:none;margin-left:10px" />';
+	newRow += '<img src="" id="img_ruta_1" class="img_ruta" width="130px" height="165px" alt="" style="text-align:center;margin-top:8px;display:none;margin-left:10px" />';
 	newRow += '<input type="hidden" id="img_foto_1" name="img_foto[]" value="" />';
 	$('#divImagenes').html(newRow);
-	
+	*/
 	
 }
 
-
+function DeleteImagen(obj){
+	
+	//var obj = $(obj).parent().html();
+	//console.log(obj);
+	var obj = $(obj).parent().remove();
+	
+	//alert(obj);
+	
+}
 
 function validaTipoDocumento(){
 	var tipo_documento = $("#tipo_documento").val();
@@ -1640,7 +1655,7 @@ function datatablenew(){
 			var nombre_py_bus = $('#nombre_py_bus').val();
 			var detalle_py_bus = $('#detalle_py_bus').val();
 			var estado = $('#estado').val();
-			//var id_estado = $('#id_estado').val();
+			var estado_py = $('#estado_py_bus').val();
 			
 			var _token = $('#_token').val();
             oSettings.jqXHR = $.ajax({
@@ -1649,7 +1664,7 @@ function datatablenew(){
                 "url": sSource,
                 "data":{NumeroPagina:iNroPagina,NumeroRegistros:iCantMostrar,
 						nombre_py_bus:nombre_py_bus,detalle_py_bus:detalle_py_bus,
-						estado:estado,/*id_estado:id_estado,*/
+						estado:estado,estado_py:estado_py,
 						_token:_token
                        },
                 "success": function (result) {
@@ -1727,13 +1742,22 @@ function datatablenew(){
                 },
 				{
                 "mRender": function (data, type, row) {
+                	var estado_py = "";
+					if(row.estado_py!= null)estado_py = row.estado_py;
+					return estado_py;
+                },
+                "bSortable": false,
+                "aTargets": [6]
+                },
+				{
+                "mRender": function (data, type, row) {
                 	var estado = "";
 					if(row.estado==1)estado = "Activo";
 					if(row.estado==0)estado = "Inactivo";
 					return estado;
                 },
                 "bSortable": false,
-                "aTargets": [6]
+                "aTargets": [7]
                 },
 				
             ]
@@ -1744,8 +1768,8 @@ function datatablenew(){
 
 	fn_util_LineaDatatable("#tblSolicitud");
 	
-    //$('#tblSolicitud tbody').on('dblclick', 'tr', function () {
-	$('#tblSolicitud tbody').on('click', 'tr', function () {
+	/*
+    $('#tblSolicitud tbody').on('click', 'tr', function () {
         var anSelected = fn_util_ObtenerNumeroFila(oTable);
         if (anSelected.length != 0) {
 			var odtable = $("#tblSolicitud").DataTable();
@@ -1760,26 +1784,33 @@ function datatablenew(){
 			//AsignarDatosProductoCompra(iIdProveedor,iIdProducto)
         }
     });
-	
-	/*
-	if(aprobador == true){
-		$('#tblSolicitud tbody').on('dblclick', 'tr', function () {
-			var anSelected = fn_util_ObtenerNumeroFila(oTable);
-			if (anSelected.length != 0) {
-				var odtable = $("#tblSolicitud").DataTable();
-				var idSolicitud = odtable.row(this).data().id;
-				var id_estado = odtable.row(this).data().id_estado;
-				if(id_estado == 5){
-					bootbox.alert("La solicitud ya se encuentra desembolsado");
-					return false;
-				}else{
-					modalSolicitud(idSolicitud);	
-				}
-				
-			}
-		});
-	}
 	*/
+	
+	
+	$('#tblSolicitud tbody').on('dblclick', 'tr', function () {
+		var anSelected = fn_util_ObtenerNumeroFila(oTable);
+		if (anSelected.length != 0) {
+			
+			var odtable = $("#tblSolicitud").DataTable();
+			
+			var idProyecto = odtable.row(this).data().id;
+			
+			obtenerProyecto(idProyecto);
+			
+			
+			/*
+			var id_estado = odtable.row(this).data().id_estado;
+			if(id_estado == 5){
+				bootbox.alert("La solicitud ya se encuentra desembolsado");
+				return false;
+			}else{
+				modalSolicitud(idSolicitud);	
+			}
+			*/
+			
+		}
+	});
+
 }
 
 
@@ -1979,95 +2010,68 @@ function fn_Datatable_Cast(vNombreSubGrilla) {
     //fn_util_LineaDatatable("#tbaDetalleSolicitud");
 }
 
-function obtenerSolicitud(id){
+function obtenerProyecto(id){
 	
 	//$('#tblProductos tbody').html("");
 	
 	$.ajax({
-		url: '/solicitud/obtener_solicitud/'+id,
+		url: '/proyecto/obtener_proyecto/'+id,
 		dataType: "json",
 		success: function(result){
-			var solicitud = result.solicitud;
+			
+			
+			var proyecto = result.proyecto;
+			var proyecto_imagen = result.proyecto_imagen;
+			
+			/*
 			var garantia = result.garantia;
 			var contacto = result.contacto;
 			var aval = result.aval;
 			var nombres = solicitud.apellido_paterno+" "+solicitud.apellido_materno+", "+solicitud.nombres;
 			var disabled = "";
+			*/
+			
+			var idDepartamento = proyecto.cod_ubigeo.substring(0,2);
+			var idProvincia = proyecto.cod_ubigeo.substring(0,4);
+			console.log(proyecto.cod_ubigeo);
+			$('#id_proyecto').val(id);
+			$('#nombre_py').val(proyecto.nombre_py);
+			$('#detalle_py').val(proyecto.detalle_py);
+			$('#estado_py').val(proyecto.estado_py);
+			$('#txtIdUbiDepar').val(idDepartamento);
+			
+			obtenerProvinciaEdit(idProvincia);
+			obtenerDistritoEdit(idProvincia,proyecto.cod_ubigeo);
+			
+			$('#divImagenes').html("");
+			
+			var ind_img = 0;
+			$(proyecto_imagen).each(function (ii, oo) {
 				
-			$('#id_solicitud').val(id);
-			$('#numero_documento').val(solicitud.numero_documento);
-			$('#nombres').val(nombres);
-			$('#telefono').val(solicitud.telefono);
-			$('#email').val(solicitud.email);
-			$('#monto_solicitado').val(solicitud.monto_solicitado);
-			$('#tiempo_pago').val(solicitud.tiempo_pago);
-			$('#id_motivo').val(solicitud.id_motivo);
-			$('#id_moneda').val(solicitud.id_moneda);
-			$('#freecuencia_pago').val(solicitud.freecuencia_pago);
-			$('#nro_cuota').val(solicitud.nro_cuota);
-			//obtener_cuota();
-			
-			if(valorizador==true){
-				disabled = "disabled='disabled'";
-				$('#tipo_documento').attr("disabled",true);
-				$('#numero_documento').attr("disabled",true);
-				$('#id_motivo').attr("disabled",true);
-				$('#id_moneda').attr("disabled",true);
-				$('#monto_solicitado').attr("disabled",true);
-				$('#tiempo_pago').attr("disabled",true);
-				$('#freecuencia_pago').attr("disabled",true);
-			}
-			
-			
-			var newRow = "";
-			var tabindex = 11;
-			var ind = $('#tblProductos tbody tr').length;
-			
-			$('#tblProductos tbody').html("");
-			$(garantia).each(function (ii, obj) {
+				ind_img = (ii+1);
+				console.log(ind_img);
 				
-				var item_tipo 	= "";
-				$('#idTipoGarantiaTemp option').each(function(){
-					var sel = "";
-					if(obj.id_tipo == $(this).val())sel = "selected='selected'";
-					item_tipo += "<option value="+$(this).val()+" "+sel+" >"+$(this).html()+"</option>"	
-				});
-					
-				newRow +='<tr>';
-				newRow +='<td><input type="hidden" value="'+obj.id+'" id="id_garantia_detalle'+ind+'" name="id_garantia_detalle[]" />';
-				newRow +='<select '+disabled+' class="form-control form-control-sm id_tipo" id="id_tipo'+ind+'" ind="'+ind+'" tabindex="'+tabindex+'" name="id_tipo[]">'+item_tipo+'</select></td>';
-				newRow +='<td><input value="'+obj.descripcion+'" '+disabled+' onKeyPress="return soloNumerosMenosCero(event)" type="text" tabindex="'+(tabindex+2)+'" data-toggle="tooltip" data-placement="top" title="Ingresar la cantidad prescrita y presionar Enter para ingresar la cantidad entregada" name="descripcion[]" required="" id="descripcion'+ind+'" class="limpia_text nro_solicitado descripcion input-sm form-control form-control-sm text-left" style="margin-left:4px;" /></td>';
-				newRow +='<td><input value="'+obj.valor_actual+'" '+disabled+' onKeyPress="return soloNumerosMenosCero(event)" type="text" tabindex="'+(tabindex+2)+'" data-toggle="tooltip" data-placement="top" title="Ingresar la cantidad prescrita y presionar Enter para ingresar la cantidad entregada" name="valor_actual[]" required="" id="valor_actual'+ind+'" class="limpia_text nro_solicitado valor_actual input-sm form-control form-control-sm text-right" style="margin-left:4px;" /></td>';
-				if(valorizador==true){
-					var valor_garantia = (obj.valor_garantia!=null && obj.valor_garantia!=0)?obj.valor_garantia:"";
-					newRow +='<td><input value="'+valor_garantia+'" onKeyPress="return soloNumerosMenosCero(event)" type="text" tabindex="'+(tabindex+2)+'" data-toggle="tooltip" data-placement="top" title="Ingresar la cantidad prescrita y presionar Enter para ingresar la cantidad entregada" name="valor_garantia[]" required="" id="valor_garantia'+ind+'" class="limpia_text nro_solicitado valor_garantia input-sm form-control form-control-sm text-right" style="margin-left:4px;" /></td>';
-				}
-				newRow +='</tr>';
-				ind++;
+				var newRow = "";
+				newRow += '<div class="img_ruta">';
+				newRow += '<img src="'+oo.ruta+'" id="img_ruta_'+ind_img+'" width="130px" height="165px" alt="" style="text-align:center;margin-top:8px;margin-left:10px" />';
+				newRow += '<span class="delete_ruta" onclick="DeleteImagen(this)"></span>';
+				newRow += '<input type="hidden" id="img_foto_'+ind_img+'" name="img_foto[]" value="" />';
+				newRow += '</div>';
+				
+				$('#divImagenes').append(newRow);
+				
 			});
 			
-			$('#tblProductos tbody').html(newRow);
-
-			if(contacto!=null){
-				$('#numero_documento_c').val(contacto.numero_documento);
-				$('#nombres_c').val(contacto.nombres);
-				$('#apellidop_c').val(contacto.apellido_paterno);
-				$('#apellidom_c').val(contacto.apellido_materno);
-				$('#id_parentesco').val(contacto.id_parentesco);
-				$('#telefono_c').val(contacto.telefono);
-				$('#direccion_c').val(contacto.direccion);
-				$('#referencia_c').val(contacto.referencia);
-			}
+			ind_img++;
+			var newRow = "";
+			newRow += '<div class="img_ruta">';
+			newRow += '<img src="" id="img_ruta_'+ind_img+'" width="130px" height="165px" alt="" style="text-align:center;margin-top:8px;display:none;margin-left:10px" />';
+			newRow += '<span class="delete_ruta" style="display:none" onclick="DeleteImagen(this)"></span>';
+			newRow += '<input type="hidden" id="img_foto_'+ind_img+'" name="img_foto[]" value="" />';
+			newRow += '</div>';
 			
-			if(aval!=null){
-				$('#numero_documento_a').val(aval.numero_documento);
-				$('#nombres_a').val(aval.nombres);
-				$('#apellidop_a').val(aval.apellido_paterno);
-				$('#apellidom_a').val(aval.apellido_materno);
-				$('#telefono_a').val(aval.telefono);
-				$('#direccion_a').val(aval.direccion);
-				$('#referencia_a').val(aval.referencia);
-			}
+			$("#divImagenes").append(newRow);
+			$("#ind_img").val(ind_img);
 			
 			
 		}
@@ -2330,6 +2334,48 @@ function obtenerProvincia(){
 	
 }
 
+function obtenerProvinciaEdit(idProvincia){
+	
+	var id = $('#txtIdUbiDepar').val();
+	if(id=="")return false;
+	$('#txtIdUbiProv').attr("disabled",true);
+	$('#ubigeodireccionprincipal').attr("disabled",true);
+	
+	var msgLoader = "";
+	msgLoader = "Procesando, espere un momento por favor";
+	var heightBrowser = $(window).width()/2;
+	$('.loader').css("opacity","0.8").css("height",heightBrowser).html("<div id='Grd1_wrapper' class='dataTables_wrapper'><div id='Grd1_processing' class='dataTables_processing panel-default'>"+msgLoader+"</div></div>");
+    $('.loader').show();
+	
+	$.ajax({
+		url: 'proyecto/obtener_provincia/'+id,
+		dataType: "json",
+		success: function(result){
+			var option = "<option value='' selected='selected'>Seleccionar</option>";
+			$('#txtIdUbiProv').html("");
+			var selected = "";
+			$(result).each(function (ii, oo) {
+				selected = "";
+				if(idProvincia == oo.id)selected = "selected='selected'";
+				option += "<option value='"+oo.id+"' "+selected+" >"+oo.nombre+"</option>";
+			});
+			$('#txtIdUbiProv').html(option);
+			//$('#txtIdUbiProv').select2();
+			
+			var option2 = "<option value=''>Seleccionar</option>";
+			$('#ubigeodireccionprincipal').html(option2);
+			
+			$('#txtIdUbiProv').attr("disabled",false);
+			$('#ubigeodireccionprincipal').attr("disabled",false);
+			
+			$('.loader').hide();
+			
+		}
+		
+	});
+	
+}
+
 function obtenerDistrito(){
 	
 	var id = $('#txtIdUbiProv').val();
@@ -2350,6 +2396,42 @@ function obtenerDistrito(){
 			$('#ubigeodireccionprincipal').html("");
 			$(result).each(function (ii, oo) {
 				option += "<option value='"+oo.id+"'>"+oo.nombre+"</option>";
+			});
+			$('#ubigeodireccionprincipal').html(option);
+			//$('#ubigeodireccionprincipal').select2();
+			
+			$('#ubigeodireccionprincipal').attr("disabled",false);
+			$('.loader').hide();
+			
+		}
+		
+	});
+	
+}
+
+function obtenerDistritoEdit(idProvincia,idDistrito){
+	
+	var id = idProvincia;
+	//if(id=="")return false;
+	$('#ubigeodireccionprincipal').attr("disabled",true);
+	
+	var msgLoader = "";
+	msgLoader = "Procesando, espere un momento por favor";
+	var heightBrowser = $(window).width()/2;
+	$('.loader').css("opacity","0.8").css("height",heightBrowser).html("<div id='Grd1_wrapper' class='dataTables_wrapper'><div id='Grd1_processing' class='dataTables_processing panel-default'>"+msgLoader+"</div></div>");
+    $('.loader').show();
+	
+	$.ajax({
+		url: 'proyecto/obtener_distrito/'+id,
+		dataType: "json",
+		success: function(result){
+			var option = "<option value=''>Seleccionar</option>";
+			$('#ubigeodireccionprincipal').html("");
+			var selected = "";
+			$(result).each(function (ii, oo) {
+				selected = "";
+				if(idDistrito == oo.id)selected = "selected='selected'";
+				option += "<option value='"+oo.id+"' "+selected+" >"+oo.nombre+"</option>";
 			});
 			$('#ubigeodireccionprincipal').html(option);
 			//$('#ubigeodireccionprincipal').select2();

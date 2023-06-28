@@ -265,6 +265,24 @@ label.form-control-sm{
 	vertical-align:top;
 }
 
+
+.img_ruta{
+	position:relative;
+	float:left
+}
+
+.delete_ruta{
+	background-image:url(img/delete.png);
+	top:0px;
+	left:110px;
+	background-size: 100%;
+	position:absolute;
+	display:block;
+	width:30px;
+	height:30px;
+	cursor:pointer
+}
+
 </style>
 
 
@@ -324,7 +342,6 @@ label.form-control-sm{
 
                         <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
 
-                        <input type="hidden" name="id_proyecto" id="id_proyecto" value="0">
                         <!--<input type="hidden" name="estado" id="estado" value="0">-->
 						
                         <div class="row" id="divSolicitud">
@@ -342,8 +359,6 @@ label.form-control-sm{
                                                             Registro de Proyecto
                                                         </strong>
 														
-														<input class="btn btn-light btn-sm" value="Limpiar" type="button" id="btnNuevo" style="float:right" />
-														
                                                     </div>
                                                 </div>
                                             </div>
@@ -355,7 +370,7 @@ label.form-control-sm{
 												
 													<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
 														<label class="form-control-sm">Id Proyecto</label>
-														<input type="text" name="id" id="id"
+														<input type="text" name="id_proyecto" id="id_proyecto"
 															value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
 													</div>
 													
@@ -447,18 +462,33 @@ label.form-control-sm{
 													
                                                 </div>
 												
+												<div style="clear:both"></div>
+												<div class="row">
 												
-												
-												<div class="row" style="padding-top:15px">
-                                                    
-                                                    <div class="col-xl-12 text-right">
-                                                        <input class="btn btn-danger pull-rigth" value="GUARDAR" name="guardar" type="button" id="btnGuardar" onclick="guardar_proyecto()" />
+													<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+														<label class="form-control-sm">Estado Proyecto</label>
+														<select name="estado_py" id="estado_py" class="form-control form-control-sm" onchange="">
+															<option value="">ESTADO PROYECTO</option>
+															<?php
+															foreach ($estado_proyecto as $row) {?>
+															<option value="<?php echo $row->codigo?>"><?php echo $row->denominacion?></option>
+															<?php 
+															}
+															?>
+														</select>
+													</div>
+													
+													<div class="col-xl-8 text-right" style="padding-top:15px">
+														
+														<input class="btn btn-success btn-sm float-rigth" value="NUEVO" type="button" id="btnNuevo" style="padding-left:20px;padding-right:20px"/>
+														
+                                                        <input class="btn btn-sm btn-danger float-rigth" value="GUARDAR" name="guardar" type="button" id="btnGuardar" onclick="guardar_proyecto()" style="margin-left:10px" />
+														
+														
                                                         
                                                     </div>
-                                                    <!--col-->
-                                                </div>
-												
-												
+													
+												</div>
 												
 
                                             </div>
@@ -483,8 +513,16 @@ label.form-control-sm{
 
 												<div class="wrapper">
   													<div id="divImagenes" class="scrolls">
-														<img src="" id="img_ruta_1" width="130px" height="165px" alt="" style="text-align:center;margin-top:8px;display:none;margin-left:10px" />
-														<input type="hidden" id="img_foto_1" name="img_foto[]" value="" />
+														
+														<div class="img_ruta">
+															
+															<img src="" id="img_ruta_1" width="130px" height="165px" alt="" style="text-align:center;margin-top:8px;display:none;margin-left:10px" />
+															<span class="delete_ruta" style="display:none" onclick="DeleteImagen(this)"></span>
+														
+															<input type="hidden" id="img_foto_1" name="img_foto[]" value="" />
+															
+														</div>
+														
 													</div>
 												</div>
 												
@@ -556,17 +594,29 @@ label.form-control-sm{
 						
 						<div class="row col align-self-center" style="padding:10px 20px 10px 20px;">
 					
-							<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+							<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 								<input class="form-control form-control-sm" id="nombre_py_bus" name="nombre_py_bus" placeholder="Nombre del Proyecto">
 							</div>
 							
-							<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+							<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
 								<input class="form-control form-control-sm" id="detalle_py_bus" name="detalle_py_bus" placeholder="Detalle del Proyecto">
 							</div>
 							
 							<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+								<select name="estado_py_bus" id="estado_py_bus" class="form-control form-control-sm" onchange="">
+									<option value="">ESTADO PROYECTO</option>
+									<?php
+									foreach ($estado_proyecto as $row) {?>
+									<option value="<?php echo $row->codigo?>"><?php echo $row->denominacion?></option>
+									<?php 
+									}
+									?>
+								</select>
+							</div>
+							
+							<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
 								<select name="estado" id="estado" class="form-control form-control-sm" onchange="">
-									<option value="">Todos</option>
+									<option value="">ESTADO</option>
 									<option value="1">ACTIVO</option>
 									<option value="0">INACTIVO</option>
 								</select>
@@ -603,6 +653,7 @@ label.form-control-sm{
 								<th>Departamento</th>
 								<th>Provincia</th>
 								<th>Distrito</th>
+								<th>Estado Proyecto</th>
 								<th>Estado</th>
 							</tr>
 							</thead>
@@ -690,13 +741,17 @@ label.form-control-sm{
 					
 					if (response != 0) {
 						$("#img_ruta_"+ind_img).attr("src", "/img/proyecto/tmp/"+response).show();
+						$(".delete_ruta").show();
 						$("#img_foto_"+ind_img).val(response);
 						
 						ind_img++;
 						
 						var newRow = "";
+						newRow += '<div class="img_ruta">';
 						newRow += '<img src="" id="img_ruta_'+ind_img+'" width="130px" height="165px" alt="" style="text-align:center;margin-top:8px;display:none;margin-left:10px" />';
+						newRow += '<span class="delete_ruta" style="display:none" onclick="DeleteImagen(this)"></span>';
 						newRow += '<input type="hidden" id="img_foto_'+ind_img+'" name="img_foto[]" value="" />';
+						newRow += '</div>';
 						
 						$("#divImagenes").append(newRow);
 						$("#ind_img").val(ind_img);

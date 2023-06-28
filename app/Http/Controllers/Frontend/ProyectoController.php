@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Proyecto;
 use App\Models\ProyectoImagene;
+use App\Models\TablaMaestra;
 use Auth;
 
 class ProyectoController extends Controller
@@ -14,10 +15,12 @@ class ProyectoController extends Controller
 	public function index(){
 		
 		$proyecto_model = new Proyecto;
+		$tablaMaestra_model = new TablaMaestra;
 		$departamento = $proyecto_model->getDepartamento();
 		//print_r($departamento);
+		$estado_proyecto = $tablaMaestra_model->getMaestroByTipo("EST_PY");
 		
-		return view('frontend.proyecto.create',compact('departamento'));
+		return view('frontend.proyecto.create',compact('departamento','estado_proyecto'));
 	
 	}
 	
@@ -26,14 +29,24 @@ class ProyectoController extends Controller
         $sw = true;
 		$msg = "";
 		$id_user = Auth::user()->id;
+		
+		$id_proyecto = $request->id_proyecto;
+		
+		if($id_proyecto > 0){
+			$proyecto = Proyecto::find($id_proyecto);
+			$proyecto->estado_py = $request->estado_py;
+		}else{
+			$proyecto = new Proyecto;
+			$proyecto->estado_py = 1;	
+		}
+		
 		$img_foto = $request->img_foto;
 		
-		$proyecto = new Proyecto;
-		//$proyecto->id_persona = $request->id_persona;
 		$proyecto->nombre_py = $request->nombre_py;
 		$proyecto->detalle_py = $request->detalle_py;
 		$proyecto->cod_ubigeo = $request->ubigeodireccionprincipal;
 		$proyecto->estado = 1;
+		
 		$proyecto->save();
 		
 		$id_proyecto = $proyecto->id;
@@ -68,6 +81,7 @@ class ProyectoController extends Controller
 		$p[]=$request->nombre_py_bus;
 		$p[]=$request->detalle_py_bus;
 		$p[]=$request->estado;
+		$p[]=$request->estado_py;
 		$p[]=$request->NumeroPagina;
 		$p[]=$request->NumeroRegistros;
 		$data = $proyecto_model->listar_proyecto_ajax($p);
@@ -85,6 +99,15 @@ class ProyectoController extends Controller
 
 	}
 	
+	public function obtener_proyecto($id){
+		
+		$proyecto_model = new Proyecto;
+		$proyecto = $proyecto_model->getProyectoById($id);
+		$proyecto_imagen = $proyecto_model->getProyectoImagenById($id);
+		$array["proyecto"] = $proyecto;
+		$array["proyecto_imagen"] = $proyecto_imagen;
+		echo json_encode($array);
+	}
 	
 	public function obtener_provincia($idDepartamento){
 		
