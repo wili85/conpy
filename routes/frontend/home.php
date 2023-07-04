@@ -40,6 +40,9 @@ Route::post('proyecto/send', [ProyectoController::class, 'send'])->name('proyect
 Route::post('proyecto/listar_proyecto_ajax', [ProyectoController::class, 'listar_proyecto_ajax'])->name('proyecto.listar_proyecto_ajax');
 Route::get('proyecto/obtener_proyecto/{id}', [ProyectoController::class, 'obtener_proyecto'])->name('proyecto.obtener_proyecto');
 
+Route::get('inversiones', [InversionistaController::class, 'index'])->name('inversiones');
+Route::get('inversiones/obtener_inversionista/{id}', [InversionistaController::class, 'obtener_inversionista'])->name('inversiones.obtener_inversionista');
+Route::get('inversiones/obtener_detalle_inversionista/{id}', [InversionistaController::class, 'obtener_detalle_inversionista'])->name('inversiones.obtener_detalle_inversionista');
 
 
 

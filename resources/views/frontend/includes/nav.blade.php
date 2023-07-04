@@ -82,7 +82,7 @@
                        aria-haspopup="true" aria-expanded="false">Inversiones</a>
                        <div class="dropdown-menu" aria-labelledby="navbarDropdownPrueba">
 					   		<a href="" class="dropdown-item">Registro de Inversionistas</a>
-							<a href="" class="dropdown-item">Registro de Inversiones</a>
+							<a href="/inversiones" class="dropdown-item">Registro de Inversiones</a>
 							<a href="" class="dropdown-item">Consulta de Inversiones</a>
                        </div>
                 </li>

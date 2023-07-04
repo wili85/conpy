@@ -42,6 +42,16 @@ where p.id=".$id;
         return $data[0];
     }
 	
+	function getProyecto(){
+
+        $cad = "select p.id,p.nombre_py,
+(select count(*) from inversionistas i where i.id_proyecto=p.id and i.estado='1')existe 
+from proyectos p where estado='1'";
+    
+		$data = DB::select($cad);
+        return $data;
+    }
+	
 	function getProyectoImagenById($id){
 
         $cad = "select id,id_proyecto,ruta  
