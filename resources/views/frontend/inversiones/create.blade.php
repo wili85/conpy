@@ -43,10 +43,124 @@
         	<div class="row justify-content-center">
 
         	<div class="col col-sm-12 align-self-center">
+			
+			
+			<div class="row" id="divSolicitud">
+						
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					
+					<div class="card">
+						<div class="card-header">
+							<div id="" class="row">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<strong>
+										Registro de Proyecto
+									</strong>
+									
+								</div>
+							</div>
+						</div>
+
+						<div class="card-body" style="margin-top:15px;margin-bottom:15px">
+						
+							<div style="clear:both"></div>
+							<div class="row">
+							
+								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+									<label class="form-control-sm">Id Proyecto</label>
+									<input type="text" name="id_proyecto" id="id_proyecto"
+										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+								</div>
+								
+								<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+									<label class="form-control-sm">Nombre del Proyecto</label>
+									<input type="text" name="nombre_py" id="nombre_py"
+										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+								</div>
+												
+							</div>
+							
+							<div class="row">
+							
+								<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+									<div class="form-group">
+										<label class="form-control-sm">Detalle del Proyecto</label>
+										<textarea type="text" name="detalle_py" id="detalle_py" rows="2"
+										placeholder="" readonly="readonly" class="form-control form-control-sm"></textarea>
+									</div>
+								</div>
+								
+								<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+									<label class="form-control-sm">Estado Proyecto</label>
+									<input type="text" name="nombre_estado_py" id="nombre_estado_py"
+										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+								</div>
+								
+							</div>
+							
+							<div class="row">
+
+								<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+									<label class="form-control-sm">Departamento</label>
+									<input type="text" name="departamento" id="departamento"
+										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+								</div>
+								
+								<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+									<label class="form-control-sm">Provincia</label>
+									<input type="text" name="provincia" id="provincia"
+										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+								</div>
+								
+								<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+									<label class="form-control-sm">Distrito</label>
+									<input type="text" name="distrito" id="distrito"
+										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+								</div>
+								
+								<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+									<label class="form-control-sm">Total Inversi&oacute;n</label>
+									<div class="row">
+										<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+											<input type="text" name="total_inversion" id="total_inversion"
+											value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+										</div>
+										<label class="form-control-sm col-lg-2">100%</label>
+									</div>
+								</div>
+								
+							</div>
+							
+							<div class="row">
+							
+								<div class="col-xl-12 text-right" style="padding-top:15px">
+														
+									<input class="btn btn-primary btn-sm float-rigth" value="Registrar Inversionista" type="button" id="btnNuevo" style="padding-left:20px;padding-right:20px;font-size:20px"/>
+									
+									<input class="btn btn-sm btn-success float-rigth" value="Agregar Inversi&oacute;n" name="guardar" type="button" id="btnGuardar" onclick="guardar_proyecto()" style="margin-left:10px;font-size:20px" />									
+									
+								</div>
+								
+							</div>	
+
+						</div>
+						<!--card-body-->
+					</div>
+					<!--card-->
+					
+					
+				</div>
+				
+			</div>
 
             <div class="row">
 
 				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+					
+					<div class="col-md-12" style="padding-top:10px">
+						<input class="form-control form-control-sm" id="system-search-proyecto" name="q" placeholder="Buscar Proyecto">
+					</div>
+					
 					<div class="table-responsive">
 						<table id="tblValorizacion" class="table table-sm">
 							<thead>
@@ -55,13 +169,12 @@
 									<th>Proyecto</th>
 								</tr>
 							</thead>
-							
 							<tbody>
 								<?php foreach($proyecto as $row){
-									$clase = "bg-success";
+									$clase = "bg-primary";
 									if($row->existe==0)$clase = "bg-danger";
 								?>
-								<tr id="fila_area_<?php echo $row->id?>" class="<?php echo $clase?> text-white" clase="<?php echo $clase?> text-white" onclick="obtenerPlan(<?php echo $row->id?>)">
+								<tr id="fila_area_<?php echo $row->id?>" class="<?php echo $clase?> text-white" clase="<?php echo $clase?> text-white" onclick="obtenerInversionista(<?php echo $row->id?>)" >
 									<td align="center"><?php echo $row->id?></td>
 									<td><?php echo $row->nombre_py?></td>
 								</tr>
@@ -71,13 +184,14 @@
 					</div>
 				</div>
 
-				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding:0px">
-				<!--
-				<div class="col-md-12" style="padding-top:10px">
-					<input class="form-control" id="system-search" name="q" placeholder="Buscar ...">
-				</div>
-				-->
-					<div class="table-responsive" style="overflow-y: visible; height:470px;width:100%">
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+				
+					<div class="col-md-12" style="padding-top:10px">
+						<input class="form-control form-control-sm" id="system-search-inversionista" name="q" placeholder="Buscar Inversionista">
+						<input type="hidden" name="cadena_inversionista" id="cadena_inversionista" />
+					</div>
+					
+					<div class="table-responsive">
 						<table id="tblPlan" class="table table-sm">
 							<thead>
 								<tr>
@@ -93,14 +207,18 @@
 				</div>
 
 				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+				
+					<div class="col-md-12" style="padding-top:10px">
+						<input class="form-control form-control-sm" id="system-search-inversionista-detalle" name="q" placeholder="Buscar Detalle de Inversi&oacute;n">
+					</div>
 
-					<div class="table-responsive" style="overflow-y: visible; height:470px;width:100%">
+					<div class="table-responsive">
 						<table id="tblPlanDetalle" class="table table-sm">
 							<thead>
 								<tr>
 									<!--<th>Proyecto</th>-->
-									<th>Fecha Sustento</th>
-									<th>Tipo Sustento</th>
+									<th>Fecha Sust.</th>
+									<th width="35%">Tipo Sustento</th>
 									<th>Tipo Moneda</th>
 									<th>Monto</th>
 								</tr>

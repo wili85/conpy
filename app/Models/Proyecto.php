@@ -33,10 +33,12 @@ class Proyecto extends Model
 	
 	function getProyectoById($id){
 
-        $cad = "select p.id,p.nombre_py,p.detalle_py,p.cod_ubigeo,u.departamento,u.provincia,u.distrito,p.estado,p.estado_py 
+        $cad = "select p.id,p.nombre_py,p.detalle_py,p.cod_ubigeo,u.departamento,u.provincia,u.distrito,p.estado,p.estado_py,tm.denominacion nombre_estado_py,
+(select coalesce(sum(monto),0) from detalle_inversiones where id_inversionista  in (select id from inversionistas i where id_proyecto=p.id))total_inversion 
 from proyectos p
 inner join ubigeos u on p.cod_ubigeo=u.id_reniec
-where p.id=".$id;
+inner join tabla_maestras tm on tm.codigo=p.estado_py and tm.tipo='EST_PY'
+where p.id=".$id; 
     
 		$data = DB::select($cad);
         return $data[0];

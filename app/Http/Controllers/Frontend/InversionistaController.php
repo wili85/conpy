@@ -25,8 +25,13 @@ class InversionistaController extends Controller
 	
 	public function obtener_inversionista($id){
 		$inversionista_model = new Inversionista;
+		$proyecto_model = new Proyecto;
+		$proyecto = null;
 		$inversionista = $inversionista_model->getInversionistaByProyecto($id);
-		echo json_encode($inversionista);
+		if($id>0)$proyecto = $proyecto_model->getProyectoById($id);
+		$data["inversionista"]=$inversionista;
+		$data["proyecto"]=$proyecto;
+		echo json_encode($data);
 	}
 	
 	public function obtener_detalle_inversionista($id){

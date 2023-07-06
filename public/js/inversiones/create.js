@@ -3,6 +3,24 @@
 
 $(document).ready(function () {
 	
+	var otable = $('#tblValorizacion').DataTable({
+		"filter": true,
+        "searching": true,
+		"paging":false,
+		//"dom": '<"top">rt<"bottom"flpi><"clear">',
+		"language": {"url": "/js/Spanish.json"},
+	});
+	
+	$("#system-search-proyecto").keyup(function() {
+		var dataTable = $('#tblValorizacion').dataTable();
+	   dataTable.fnFilter(this.value);
+	});
+	
+	$("#system-search-proyecto").click(function() {
+		obtenerInversionista(0);
+		obtenerDetalleInversionista(0);	
+	});
+
 	obtenerInversionista(0);
 	obtenerDetalleInversionista(0);
 	
@@ -324,54 +342,76 @@ function obtenerInversionista(id){
 	
 	$('#tblPlanDetalle tbody').html("");
 	$('#tblPlan tbody').html("");
-	/*
+	
 	$("#tblValorizacion tbody tr").each(function (ii, oo) {
 		var clase = $(this).attr("clase");
 		$(this).attr('class',clase);
 	});
 	
-	$("#fila_area_"+id).attr('class','bg-warning text-white');
-	*/
+	$("#fila_area_"+id).attr('class','bg-success text-white');
 	
 	$.ajax({
 		url: '/inversiones/obtener_inversionista/'+id,
 		dataType: "json",
 		success: function(result){
+			
+			if(result.proyecto!=null){
+				var proyecto = result.proyecto;
+				$("#id_proyecto").val(proyecto.id);
+				$("#nombre_py").val(proyecto.nombre_py);
+				$("#detalle_py").val(proyecto.detalle_py);
+				$("#departamento").val(proyecto.departamento);
+				$("#provincia").val(proyecto.provincia);
+				$("#distrito").val(proyecto.distrito);
+				$("#nombre_estado_py").val(proyecto.nombre_estado_py);
+				$("#total_inversion").val(proyecto.total_inversion);
+			}
+			
 			var option = "";
 			$('#tblPlan').dataTable().fnDestroy(); //la destruimos
 			$('#tblPlan tbody').html("");
-	
-			$(result).each(function (ii, oo) {
+			
+			var cadena_inversionista = "";
+			$("#cadena_inversionista").val("");
+			
+			$(result.inversionista).each(function (ii, oo) {
 				var clase = "bg-primary";
 				if(oo.existe==0)clase = "bg-danger";
 				
-				//option += "<tr id='fila_"+oo.id+"' class='"+clase+" text-white' clase='"+clase+" text-white' onclick=obtenerPlanDetalle("+oo.id+",this)><td>"+oo.plan_denominacion+"</td><td>"+oo.periodo+"</td><td>"+oo.plan_costo+"</td></tr>";
-				
-				option += "<tr id='fila_"+oo.id+"' class='"+clase+" text-white' clase='"+clase+" text-white' onclick=obtenerPlanDetalle("+oo.id+",this)>";
-				//option += "<td>"+oo.nombre_py+"</td>";
+				option += "<tr id='fila_"+oo.id+"' class='"+clase+" text-white' clase='"+clase+" text-white' onclick=obtenerDetalleInversionista("+oo.id+",this)>";
 				option += "<td>"+oo.numero_documento+"</td>";
 				option += "<td>"+oo.inversionista+"</td>";
 				option += "<td>"+oo.porcentaje+"</td>";
 				option += "</tr>";
 				
+				cadena_inversionista += oo.id+",";
 				
 			});
+			
+			cadena_inversionista = cadena_inversionista.substring(0,cadena_inversionista.length-1);
+			$("#cadena_inversionista").val(cadena_inversionista);
+			
 			$('#tblPlan tbody').html(option);
 			
-			/*
+			
 			$('#tblPlan').DataTable({
 				"paging":false,
 				"dom": '<"top">rt<"bottom"flpi><"clear">',
 				"language": {"url": "/js/Spanish.json"},
 			});
 			
-			$("#system-search").keyup(function() {
+			$("#system-search-inversionista").keyup(function() {
 				var dataTable = $('#tblPlan').dataTable();
 			   dataTable.fnFilter(this.value);
 			});
 			
-			if(id==6)$('#div_mayorista').show();
-			*/
+			 
+			if(id>0){
+				var cadena_inversionista = $("#cadena_inversionista").val();
+				obtenerDetalleInversionista(cadena_inversionista);	
+			}
+			
+			
 			
 		}
 		
@@ -380,29 +420,28 @@ function obtenerInversionista(id){
 }
 
 function obtenerDetalleInversionista(id,obj){
-	/*
+	
 	$("#tblPlan tbody tr").each(function (ii, oo) {
 		var clase = $(this).attr("clase");
 		$(this).attr('class',clase);
 	});
-	*/
-	//$("#fila_"+id).attr('class','bg-success text-white');
+	//alert(id);
+	if(obj!=undefined){
+		$("#fila_"+id).attr('class','bg-success text-white');
+	}
+	
 	//$('#id_plan').val(id);
 	
 	$.ajax({
 		url: '/inversiones/obtener_detalle_inversionista/'+id,
 		dataType: "json",
 		success: function(result){
-			//var plan = result.plan;
-			
 			var option = "";			
 			var option = "";
+			$('#tblPlanDetalle').dataTable().fnDestroy(); //la destruimos
 			$('#tblPlanDetalle tbody').html("");
-			//$("#cantidad_planes").html(plan.length+" registros");
 			$(result).each(function (ii, oo) {
-				//countp++;
-				//option += "<tr class='bg-info text-white'><td>"+countp+"</td><td>"+oo.pasm_smodulod+"</td><td>"+oo.pasm_precio+"</td></tr>";
-				option += "<tr class='bg-info text-white'>";
+				option += "<tr class='bg-primary text-white'>";
 				option += "<td>"+oo.fecha_sustento+"</td>";
 				option += "<td>"+oo.tipo_sustento+"</td>";
 				option += "<td>"+oo.tipo_moneda+"</td>";
@@ -411,6 +450,18 @@ function obtenerDetalleInversionista(id,obj){
 				
 			});
 			$('#tblPlanDetalle tbody').html(option);
+			
+			$('#tblPlanDetalle').DataTable({
+				"paging":false,
+				"dom": '<"top">rt<"bottom"flpi><"clear">',
+				"language": {"url": "/js/Spanish.json"},
+			});
+			
+			$("#system-search-inversionista-detalle").keyup(function() {
+				var dataTable = $('#tblPlanDetalle').dataTable();
+			   dataTable.fnFilter(this.value);
+			});
+			
 		}
 		
 	});

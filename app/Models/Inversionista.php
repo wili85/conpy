@@ -55,7 +55,9 @@ left join personas p on i.id_persona=p.id
 left join empresas e on i.id_empresa=e.id 
 where di.estado='1'";
 
-		if($id > 0)$cad .= " And di.id_inversionista=".$id;
+		//if($id > 0)$cad .= " And di.id_inversionista=".$id;
+		if($id > 0)$cad .= " And di.id_inversionista in(".$id.")";
+		
 		//$cad .= " Order by p.plan_denominacion asc";
 		$data = DB::select($cad);
         return $data;
