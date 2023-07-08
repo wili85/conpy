@@ -6192,7 +6192,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 body {
   margin: 0;
   font-family: "Nunito", sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.0rem;
   font-weight: 400;
   line-height: 1.6;
   color: #212529;
@@ -8206,7 +8206,8 @@ select.form-control:focus::-ms-value {
 .form-control-sm {
   height: calc(1.5em + 0.5rem + 2px);
   padding: 0.25rem 0.5rem;
-  font-size: 0.7875rem;
+  /*font-size: 0.7875rem;*/
+  font-size: 0.90rem;
   line-height: 1.5;
   border-radius: 0.2rem;
 }

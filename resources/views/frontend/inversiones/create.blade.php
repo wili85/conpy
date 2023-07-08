@@ -11,6 +11,14 @@
 	border-collapse:collapse!important;
 }
 
+.form-control-sm{
+	padding:0.35rem 0.5rem 0 0.5rem!important;
+}
+
+label{
+	margin-bottom:0px !important;
+}
+
 </style>
 @extends('frontend.layouts.app')
 
@@ -38,7 +46,7 @@
 
         <div class="card">
 
-            <div class="card-body">
+            <div class="card-body" style="padding-top:0px">
 
         	<div class="row justify-content-center">
 
@@ -50,10 +58,10 @@
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					
 					<div class="card">
-						<div class="card-header">
+						<div class="card-header" style="padding-top:2px;padding-bottom:2px">
 							<div id="" class="row">
 								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<strong>
+									<strong style="font-size:20px">
 										Registro de Proyecto
 									</strong>
 									
@@ -61,10 +69,10 @@
 							</div>
 						</div>
 
-						<div class="card-body" style="margin-top:15px;margin-bottom:15px">
+						<div class="card-body" style="margin-top:0px;margin-bottom:10px;padding-top:0px;padding-bottom:0px">
 						
 							<div style="clear:both"></div>
-							<div class="row">
+							<div class="row" style="paddin-top:0px;paddin-bottom:0px">
 							
 								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
 									<label class="form-control-sm">Id Proyecto</label>
@@ -72,9 +80,15 @@
 										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
 								</div>
 								
-								<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+								<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
 									<label class="form-control-sm">Nombre del Proyecto</label>
 									<input type="text" name="nombre_py" id="nombre_py"
+										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+								</div>
+								
+								<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+									<label class="form-control-sm">Estado Proyecto</label>
+									<input type="text" name="nombre_estado_py" id="nombre_estado_py"
 										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
 								</div>
 												
@@ -83,39 +97,9 @@
 							<div class="row">
 							
 								<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-									<div class="form-group">
 										<label class="form-control-sm">Detalle del Proyecto</label>
 										<textarea type="text" name="detalle_py" id="detalle_py" rows="2"
 										placeholder="" readonly="readonly" class="form-control form-control-sm"></textarea>
-									</div>
-								</div>
-								
-								<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-									<label class="form-control-sm">Estado Proyecto</label>
-									<input type="text" name="nombre_estado_py" id="nombre_estado_py"
-										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
-								</div>
-								
-							</div>
-							
-							<div class="row">
-
-								<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-									<label class="form-control-sm">Departamento</label>
-									<input type="text" name="departamento" id="departamento"
-										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
-								</div>
-								
-								<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-									<label class="form-control-sm">Provincia</label>
-									<input type="text" name="provincia" id="provincia"
-										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
-								</div>
-								
-								<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-									<label class="form-control-sm">Distrito</label>
-									<input type="text" name="distrito" id="distrito"
-										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
 								</div>
 								
 								<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
@@ -131,17 +115,37 @@
 								
 							</div>
 							
-							<div class="row">
-							
-								<div class="col-xl-12 text-right" style="padding-top:15px">
+							<div class="row" style="paddin-top:0px;paddin-bottom:0px">
+
+								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+									<label class="form-control-sm">Departamento</label>
+									<input type="text" name="departamento" id="departamento"
+										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+								</div>
+								
+								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+									<label class="form-control-sm">Provincia</label>
+									<input type="text" name="provincia" id="provincia"
+										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+								</div>
+								
+								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+									<label class="form-control-sm">Distrito</label>
+									<input type="text" name="distrito" id="distrito"
+										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+								</div>
+								
+								<div class="col-xl-6 text-right" style="padding-top:15px">
 														
 									<input class="btn btn-primary btn-sm float-rigth" value="Registrar Inversionista" type="button" id="btnNuevo" style="padding-left:20px;padding-right:20px;font-size:20px"/>
 									
-									<input class="btn btn-sm btn-success float-rigth" value="Agregar Inversi&oacute;n" name="guardar" type="button" id="btnGuardar" onclick="guardar_proyecto()" style="margin-left:10px;font-size:20px" />									
+									<input class="btn btn-sm btn-success float-rigth" value="Agregar Inversi&oacute;n" name="guardar" type="button" id="btnNuevoInversion" style="margin-left:10px;font-size:20px" />									
 									
 								</div>
 								
-							</div>	
+								
+							</div>
+							
 
 						</div>
 						<!--card-body-->
@@ -155,9 +159,9 @@
 
             <div class="row">
 
-				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding-right:4px!important">
 					
-					<div class="col-md-12" style="padding-top:10px">
+					<div class="col-md-12" style="padding-top:8px">
 						<input class="form-control form-control-sm" id="system-search-proyecto" name="q" placeholder="Buscar Proyecto">
 					</div>
 					
@@ -184,9 +188,9 @@
 					</div>
 				</div>
 
-				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding-right:2px!important;padding-left:2px">
 				
-					<div class="col-md-12" style="padding-top:10px">
+					<div class="col-md-12" style="padding-top:8px">
 						<input class="form-control form-control-sm" id="system-search-inversionista" name="q" placeholder="Buscar Inversionista">
 						<input type="hidden" name="cadena_inversionista" id="cadena_inversionista" />
 					</div>
@@ -206,9 +210,9 @@
 					</div>
 				</div>
 
-				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding-left:4px">
 				
-					<div class="col-md-12" style="padding-top:10px">
+					<div class="col-md-12" style="padding-top:8px">
 						<input class="form-control form-control-sm" id="system-search-inversionista-detalle" name="q" placeholder="Buscar Detalle de Inversi&oacute;n">
 					</div>
 
@@ -219,7 +223,7 @@
 									<!--<th>Proyecto</th>-->
 									<th>Fecha Sust.</th>
 									<th width="35%">Tipo Sustento</th>
-									<th>Tipo Moneda</th>
+									<th>Moneda</th>
 									<th>Monto</th>
 								</tr>
                         	</thead>
@@ -240,6 +244,23 @@
 
     </div><!--row-->
 @endsection
+
+<div id="openOverlayOpc" class="modal fade" role="dialog">
+  <div class="modal-dialog" >
+
+	<div id="id_content_OverlayoneOpc" class="modal-content" style="padding: 0px;margin: 0px">
+	
+	  <div class="modal-body" style="padding: 0px;margin: 0px">
+
+			<div id="diveditpregOpc"></div>
+
+	  </div>
+	
+	</div>
+
+  </div>
+	
+</div>
 
 @push('after-scripts')
 

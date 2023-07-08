@@ -3,6 +3,14 @@
 
 $(document).ready(function () {
 	
+	$('#btnNuevo').on('click', function () {
+		modalInversionista(0);
+	});
+	
+	$('#btnNuevoInversion').on('click', function () {
+		modalInversion(0);
+	});
+	
 	var otable = $('#tblValorizacion').DataTable({
 		"filter": true,
         "searching": true,
@@ -877,4 +885,37 @@ function fn_save_afiliacion_empresa(){
             }
     });
 }
+
+function modalInversionista(id){
+	
+	$(".modal-dialog").css("width","85%");
+	$('#openOverlayOpc .modal-body').css('height', 'auto');
+
+	$.ajax({
+			url: "/inversiones/modal_inversionista/"+id,
+			type: "GET",
+			success: function (result) {  
+					$("#diveditpregOpc").html(result);
+					$('#openOverlayOpc').modal('show');
+			}
+	});
+
+}
+
+function modalInversion(id){
+	
+	$(".modal-dialog").css("width","85%");
+	$('#openOverlayOpc .modal-body').css('height', 'auto');
+
+	$.ajax({
+			url: "/inversiones/modal_inversion/"+id,
+			type: "GET",
+			success: function (result) {  
+					$("#diveditpregOpc").html(result);
+					$('#openOverlayOpc').modal('show');
+			}
+	});
+
+}
+
 

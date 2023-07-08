@@ -387,7 +387,7 @@ label.form-control-sm{
 													<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 														<div class="form-group">
 															<label class="form-control-sm">Detalle del Proyecto</label>
-															<textarea type="text" name="detalle_py" id="detalle_py" rows="7"
+															<textarea type="text" name="detalle_py" id="detalle_py" rows="2"
 															placeholder="" class="form-control form-control-sm"></textarea>
 														</div>
 													</div>
