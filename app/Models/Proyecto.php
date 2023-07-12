@@ -34,7 +34,8 @@ class Proyecto extends Model
 	function getProyectoById($id){
 
         $cad = "select p.id,p.nombre_py,p.detalle_py,p.cod_ubigeo,u.departamento,u.provincia,u.distrito,p.estado,p.estado_py,tm.denominacion nombre_estado_py,
-(select coalesce(sum(monto),0) from detalle_inversiones where id_inversionista  in (select id from inversionistas i where id_proyecto=p.id))total_inversion 
+(select coalesce(sum(monto),0) from detalle_inversiones where id_tipo_moneda=1 and id_inversionista  in (select id from inversionistas i where id_proyecto=p.id))total_inversion_soles,
+(select coalesce(sum(monto),0) from detalle_inversiones where id_tipo_moneda=2 and id_inversionista  in (select id from inversionistas i where id_proyecto=p.id))total_inversion_dolares 
 from proyectos p
 inner join ubigeos u on p.cod_ubigeo=u.id_reniec
 inner join tabla_maestras tm on tm.codigo=p.estado_py and tm.tipo='EST_PY'

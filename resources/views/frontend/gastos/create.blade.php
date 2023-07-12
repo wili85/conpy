@@ -62,7 +62,7 @@ label{
 							<div id="" class="row">
 								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<strong style="font-size:20px">
-										Registro de Proyecto
+										Registro de Ingresos y Gastos
 									</strong>
 									
 								</div>
@@ -73,86 +73,137 @@ label{
 						
 							<div style="clear:both"></div>
 							<div class="row" style="paddin-top:0px;paddin-bottom:0px">
-							
-								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-									<label class="form-control-sm">Id Proyecto</label>
-									<input type="text" name="id_proyecto" id="id_proyecto"
-										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
-								</div>
 								
 								<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
-									<label class="form-control-sm">Nombre del Proyecto</label>
-									<input type="text" name="nombre_py" id="nombre_py"
-										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+									
+									<div class="row">
+										
+										<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+											<label class="form-control-sm">Id Proyecto</label>
+											<input type="text" name="id_proyecto" id="id_proyecto"
+											value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+										</div>
+										
+										<div class="col-lg-8 col-md-5 col-sm-12 col-xs-12">
+											<label class="form-control-sm">Nombre del Proyecto</label>
+											<input type="text" name="nombre_py" id="nombre_py"
+											value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+										</div>
+										
+										
+									</div>
+									
+									<div class="row">
+							
+										<div class="col-lg-12 col-md-7 col-sm-12 col-xs-12">
+												<label class="form-control-sm">Detalle del Proyecto</label>
+												<textarea type="text" name="detalle_py" id="detalle_py" rows="2"
+												placeholder="" readonly="readonly" class="form-control form-control-sm"></textarea>
+										</div>
+										
+									</div>
+									
+									<div class="row">
+									
+										<div class="col-lg-4 col-md-2 col-sm-12 col-xs-12">
+											<label class="form-control-sm">Estado Proyecto</label>
+											<input type="text" name="nombre_estado_py" id="nombre_estado_py"
+												value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+										</div>
+									
+									</div>
+									
 								</div>
 								
-								<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-									<label class="form-control-sm">Estado Proyecto</label>
-									<input type="text" name="nombre_estado_py" id="nombre_estado_py"
-										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+								<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+									
+									<div class="row">
+										
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										
+											
+											<div class="row">
+											
+												<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+													<label class="form-control-sm" style="text-align:left;padding-left:0px!important">DETALLE :</label>
+												</div>
+												
+												<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center">
+													Ingresos
+												</div>
+												
+												<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center">
+													Gastos
+												</div>
+												
+												<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+													
+												</div>
+												
+											</div>
+											
+											<div class="row" style="padding-top:10px">
+											
+												<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+													<span style="display:block;float:left">SOLES</span>
+												</div>
+												
+												<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+													<input type="text" style="float:left;float:right;background:#0080FF;color:#FFFFFF;text-align:right;font-weight:bold" name="total_inversion_soles" id="total_inversion_soles"
+													value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+												</div>
+												
+												<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+													<input type="text" style="float:left;float:right;background:#0080FF;color:#FFFFFF;text-align:right;font-weight:bold" name="total_inversion_soles" id="total_inversion_soles"
+													value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+												</div>
+												
+												<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12" style="padding-left:0px;padding-right:0px">
+													<label class="form-control-sm">100%</label>
+												</div>
+												
+											</div>
+											
+											<div class="row" style="padding-top:5px">
+												
+												<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+													<span style="display:block;float:left">DOLARES</span>
+												</div>
+												<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+													<input type="text" style="float:left;float:right;background:#008000;color:#FFFFFF;text-align:right;font-weight:bold" name="total_inversion_soles" id="total_inversion_soles"
+													value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+												</div>
+												
+												<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+													<input type="text" style="float:left;float:right;background:#008000;color:#FFFFFF;text-align:right;font-weight:bold" name="total_inversion_soles" id="total_inversion_soles"
+													value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
+												</div>
+												<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12" style="padding-left:0px;padding-right:0px">
+													<label class="form-control-sm">100%</label>
+												</div>
+													
+											</div>
+											
+											<div class="row" style="paddin-top:0px;paddin-bottom:0px">
+
+												
+												<div class="col-xl-12 text-right" style="padding-top:35px">
+																		
+													<input class="btn btn-primary btn-sm float-rigth" value="Ingresos" type="button" id="btnNuevo" style="padding-left:30px;padding-right:30px;font-size:20px"/>
+													
+													<input class="btn btn-sm btn-success float-rigth" value="Gastos" name="guardar" type="button" id="btnNuevoInversion" style="padding-left:30px;padding-right:30px;margin-left:30px;font-size:20px" />									
+													
+												</div>
+												
+												
+											</div>
+											
+										</div>
+										
+									</div>
+									
 								</div>
 												
-							</div>
-							
-							<div class="row">
-							
-								<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-										<label class="form-control-sm">Detalle del Proyecto</label>
-										<textarea type="text" name="detalle_py" id="detalle_py" rows="2"
-										placeholder="" readonly="readonly" class="form-control form-control-sm"></textarea>
-								</div>
-								
-								<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-									<label class="form-control-sm">Total Inversi&oacute;n</label>
-									<div class="row">
-										<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
-											<span style="display:block;float:left">SOLES</span>
-											<input type="text" style="float:left;width:45%;float:right;background:#0080FF;color:#FFFFFF;text-align:right;font-weight:bold" name="total_inversion_soles" id="total_inversion_soles"
-											value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
-										</div>
-										<label class="form-control-sm col-lg-2">100%</label>
-									</div>
-									<div class="row" style="padding-top:5px">
-										<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
-											<span style="display:block;float:left">DOLARES</span>
-											<input type="text" style="float:left;width:45%;float:right;background:#008000;color:#FFFFFF;text-align:right;font-weight:bold" name="total_inversion_dolares" id="total_inversion_dolares"
-											value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
-										</div>
-										<label class="form-control-sm col-lg-2">100%</label>
-									</div>
-								</div>
-								
-							</div>
-							
-							<div class="row" style="paddin-top:0px;paddin-bottom:0px">
-
-								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-									<label class="form-control-sm">Departamento</label>
-									<input type="text" name="departamento" id="departamento"
-										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
-								</div>
-								
-								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-									<label class="form-control-sm">Provincia</label>
-									<input type="text" name="provincia" id="provincia"
-										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
-								</div>
-								
-								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-									<label class="form-control-sm">Distrito</label>
-									<input type="text" name="distrito" id="distrito"
-										value="" readonly="readonly" placeholder="" class="form-control form-control-sm" >
-								</div>
-								
-								<div class="col-xl-6 text-right" style="padding-top:15px">
-														
-									<input class="btn btn-primary btn-sm float-rigth" value="Registrar Inversionista" type="button" id="btnNuevo" style="padding-left:20px;padding-right:20px;font-size:20px"/>
-									
-									<input class="btn btn-sm btn-success float-rigth" value="Agregar Inversi&oacute;n" name="guardar" type="button" id="btnNuevoInversion" style="margin-left:10px;font-size:20px" />									
-									
-								</div>
-								
-								
 							</div>
 							
 
@@ -273,6 +324,6 @@ label{
 
 @push('after-scripts')
 
-<script src="{{ asset('js/inversiones/create.js') }}"></script>
+<script src="{{ asset('js/gastos/create.js') }}"></script>
     
 @endpush

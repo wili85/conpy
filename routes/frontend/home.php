@@ -15,7 +15,7 @@ use App\Http\Controllers\Frontend\MantenimientoController;
 use App\Http\Controllers\Frontend\PersonaController;
 use App\Http\Controllers\Frontend\EmpresaController;
 use App\Http\Controllers\Frontend\DetalleInversionController;
-
+use App\Http\Controllers\Frontend\IngresoGastoController;
 
 /*
  * Frontend Controllers
@@ -58,6 +58,8 @@ Route::get('persona/obtener_persona_empresa/{id_proyecto}', [PersonaController::
 Route::get('empresa/list_empresa/{id}', [EmpresaController::class, 'list_empresa'])->name('empresa.list_empresa');
 
 Route::post('detalle_inversiones/send_detalle_inversiones', [DetalleInversionController::class, 'send_detalle_inversiones'])->name('inversiones.send_detalle_inversiones');
+
+Route::get('ingresos_gastos', [IngresoGastoController::class, 'index'])->name('ingresos_gastos');
 
 
 

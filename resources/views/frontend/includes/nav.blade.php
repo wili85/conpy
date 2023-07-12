@@ -91,7 +91,7 @@
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownPrueba" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">Gastos</a>
                        <div class="dropdown-menu" aria-labelledby="navbarDropdownPrueba">
-                            <a href="" class="dropdown-item">Registro de Gastos</a>
+                            <a href="/ingresos_gastos" class="dropdown-item">Registro de Gastos</a>
                             <a href="" class="dropdown-item">Gastos Pendientes</a>
                        </div>
                 </li>
