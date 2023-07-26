@@ -61,7 +61,8 @@ Route::post('detalle_inversiones/send_detalle_inversiones', [DetalleInversionCon
 
 Route::get('ingresos_gastos', [IngresoGastoController::class, 'index'])->name('ingresos_gastos');
 
-
+Route::get('expediente', [ExpedienteController::class, 'index'])->name('expediente');
+Route::get('expediente/obtener_proyecto/{id}', [ExpedienteController::class, 'obtener_proyecto'])->name('expediente.obtener_proyecto');
 
 
 

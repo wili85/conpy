@@ -70,7 +70,7 @@
                        aria-haspopup="true" aria-expanded="false">Expedientes</a>
                        <div class="dropdown-menu" aria-labelledby="navbarDropdownPrueba">
 					   		<a href="" class="dropdown-item">Registro de Litigantes</a>
-							<a href="" class="dropdown-item">Registro de Expedientes</a>
+							<a href="/expediente" class="dropdown-item">Registro de Expedientes</a>
 							<a href="" class="dropdown-item">Consulta de Expedientes</a>
 							<a href="" class="dropdown-item">Seguimiento de Expedientes</a>
 							<a href="" class="dropdown-item">Expedientes Pendientes y Por Vencer</a>
