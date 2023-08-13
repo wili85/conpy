@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Proyecto;
+use App\Models\Expediente;
 use App\Models\TablaMaestra;
 use App\Models\MateriaExpediente;
 use App\Models\OrganoJurisdiccionale;
 use App\Models\DistritoJudiciale;
+use App\Models\Litigante;
+use Auth;
 
 class ExpedienteController extends Controller
 {
@@ -40,6 +43,176 @@ class ExpedienteController extends Controller
 		//$array["proyecto_imagen"] = $proyecto_imagen;
 		echo json_encode($array);
 	}
+	
+	public function listar_expediente_ajax(Request $request){
+
+		$expediente_model = new Expediente;
+		$p[]=$request->nombre_py_bus;
+		$p[]=$request->detalle_py_bus;
+		$p[]=$request->estado;
+		$p[]=$request->estado_py;
+		$p[]=$request->NumeroPagina;
+		$p[]=$request->NumeroRegistros;
+		$data = $expediente_model->listar_expediente_ajax($p);
+		$iTotalDisplayRecords = isset($data[0]->totalrows)?$data[0]->totalrows:0;
+
+		$result["PageStart"] = $request->NumeroPagina;
+		$result["pageSize"] = $request->NumeroRegistros;
+		$result["SearchText"] = "";
+		$result["ShowChildren"] = true;
+		$result["iTotalRecords"] = $iTotalDisplayRecords;
+		$result["iTotalDisplayRecords"] = $iTotalDisplayRecords;
+		$result["aaData"] = $data;
+
+		echo json_encode($result);
+
+	}
+	
+	public function send(Request $request){
+
+        $sw = true;
+		$msg = "";
+		$id_user = Auth::user()->id;
+		
+		$id_expediente = $request->id_expediente;
+		
+		if($id_expediente > 0){
+			$expediente = Expediente::find($id_expediente);
+			$expediente->estado_exp = $request->estado_exp;
+		}else{
+			$expediente = new Expediente;
+			$expediente->estado_exp = 1;	
+		}
+		
+		$expediente->numero = $request->numero;
+		$expediente->anio = $request->anio;
+		$expediente->glosa = $request->glosa;
+		$expediente->descripcion = $request->descripcion;
+		$expediente->cod_ubigeo = $request->ubigeodireccionprincipal;
+		$expediente->id_dist_judicial = $request->id_dist_judicial;
+		$expediente->id_org_juris = $request->id_org_juris;
+		$expediente->id_materia = $request->id_materia;
+		$expediente->id_proyecto = $request->id_proyecto;
+		$expediente->estado = 1;
+		$expediente->id_litigante=0;
+		$expediente->id_exp_digital=0;
+		$expediente->save();
+		
+	}
+	
+	public function obtener_expediente($id){
+		
+		$expediente_model = new Expediente;
+		$proyecto_model = new Proyecto;
+		$expediente = $expediente_model->getExpedienteById($id);
+		$proyecto = NULL;
+		if(isset($expediente->id_proyecto) && $expediente->id_proyecto>0){
+			$proyecto = $proyecto_model->getProyectoById($expediente->id_proyecto);
+		}
+		$array["expediente"] = $expediente;
+		$array["proyecto"] = $proyecto;
+		echo json_encode($array);
+	}
+	
+	public function listar_expediente_movimiento_ajax(Request $request){
+
+		$expediente_model = new Expediente;
+		$p[]=4;
+		$p[]=$request->NumeroPagina;
+		$p[]=$request->NumeroRegistros;
+		$data = $expediente_model->listar_expediente_movimiento_ajax($p);
+		$iTotalDisplayRecords = isset($data[0]->totalrows)?$data[0]->totalrows:0;
+
+		$result["PageStart"] = $request->NumeroPagina;
+		$result["pageSize"] = $request->NumeroRegistros;
+		$result["SearchText"] = "";
+		$result["ShowChildren"] = true;
+		$result["iTotalRecords"] = $iTotalDisplayRecords;
+		$result["iTotalDisplayRecords"] = $iTotalDisplayRecords;
+		$result["aaData"] = $data;
+
+		echo json_encode($result);
+
+	}
+	
+	public function listar_expediente_litigante_ajax(Request $request){
+
+		$expediente_model = new Expediente;
+		$p[]=4;
+		$p[]=$request->NumeroPagina;
+		$p[]=$request->NumeroRegistros;
+		$data = $expediente_model->listar_expediente_litigante_ajax($p);
+		$iTotalDisplayRecords = isset($data[0]->totalrows)?$data[0]->totalrows:0;
+
+		$result["PageStart"] = $request->NumeroPagina;
+		$result["pageSize"] = $request->NumeroRegistros;
+		$result["SearchText"] = "";
+		$result["ShowChildren"] = true;
+		$result["iTotalRecords"] = $iTotalDisplayRecords;
+		$result["iTotalDisplayRecords"] = $iTotalDisplayRecords;
+		$result["aaData"] = $data;
+
+		echo json_encode($result);
+
+	}
+	
+	public function modal_expediente_litigante($id){
+		
+		if($id>0){
+			$litigante_model = new Litigante;
+			$litigante = $litigante_model->getLitiganteById($id);
+		}else{
+			$litigante = new Litigante;
+		}
+		
+		$tablaMaestra_model = new TablaMaestra;
+		$tipo_litigante = $tablaMaestra_model->getMaestroByTipo("TIPO_LIT");
+		$estado_litigante = $tablaMaestra_model->getMaestroByTipo("EST_LIT");
+		
+		return view('frontend.expediente.modal_litigante',compact('id','litigante','tipo_litigante','estado_litigante'));
+	
+	}
+	
+	public function send_litigante(Request $request){
+		
+		$id_persona = 0;
+		$id_empresa = 0;
+		
+		if($request->id_persona!=""){
+			$id_persona=$request->id_persona;
+			$cantidad = Litigante::where("id_persona",$id_persona)->where("estado",1)->count();
+		}
+		if($request->id_empresa!=""){
+			$id_empresa=$request->id_empresa;
+			$cantidad = Litigante::where("id_empresa",$id_empresa)->where("estado",1)->count();
+		}
+		
+		if($request->id == 0){
+			if($cantidad == 0){	
+				$litigante = new Litigante;
+				$litigante->id_expediente = 4;
+				$litigante->id_tipo_litigante = $request->id_tipo_litigante;
+				$litigante->estado_lit = $request->estado_lit;
+				$litigante->id_persona = $id_persona;
+				$litigante->id_empresa = $id_empresa;
+				$litigante->estado = "1";
+				$litigante->save();
+			}
+			echo $cantidad;
+			
+		}else{
+			$litigante = Litigante::find($request->id);
+			$litigante->id_expediente = 4;
+			$litigante->id_tipo_litigante = $request->id_tipo_litigante;
+			$litigante->estado_lit = $request->estado_lit;
+			$litigante->id_persona = $id_persona;
+			$litigante->id_empresa = $id_empresa;
+			$litigante->estado = "1";
+			$litigante->save();
+		}
+		
+		
+    }
 	
 	
 }

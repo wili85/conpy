@@ -323,7 +323,7 @@ label.form-control-sm{
 
         <div class="card-body">
 
-            <form class="form-horizontal" method="post" action="" id="frmProyecto" autocomplete="off" enctype="multipart/form-data">
+            <form class="form-horizontal" method="post" action="" id="frmExpediente" autocomplete="off">
 				<!--
                 <div class="row">
                     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12" style="margin-top:15px">
@@ -342,7 +342,7 @@ label.form-control-sm{
 
                         <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
 
-                        <!--<input type="hidden" name="estado" id="estado" value="0">-->
+                        <input type="hidden" name="id_expediente" id="id_expediente" value="">
 						
                         <div class="row" id="divSolicitud">
 							
@@ -370,25 +370,25 @@ label.form-control-sm{
 												
 													<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
 														<label class="form-control-sm">N&uacute;mero Expediente</label>
-														<input type="text" name="nombre_py" id="nombre_py"
+														<input type="text" name="numero" id="numero"
 															value="" placeholder="" class="form-control form-control-sm" >
 													</div>
 													
 													<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-														<label class="form-control-sm">A&Ntilde;o</label>
-														<input type="text" name="nombre_py" id="nombre_py"
+														<label class="form-control-sm">A&ntilde;o</label>
+														<input type="text" name="anio" id="anio"
 															value="" placeholder="" class="form-control form-control-sm" >
 													</div>
 													
 													<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
 														<label class="form-control-sm">Glosa</label>
-														<input type="text" name="nombre_py" id="nombre_py"
+														<input type="text" name="glosa" id="glosa"
 															value="" placeholder="" class="form-control form-control-sm" >
 													</div>
 													
 													<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 														<label class="form-control-sm">Estado Expediente</label>
-														<select name="estado_py" id="estado_py" class="form-control form-control-sm" onchange="">
+														<select name="estado_exp" id="estado_exp" class="form-control form-control-sm" onchange="">
 															<option value="">ESTADO EXPEDIENTE</option>
 															<?php
 															foreach ($estado_expediente as $row) {?>
@@ -406,7 +406,7 @@ label.form-control-sm{
 													<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 														<div class="form-group">
 															<label class="form-control-sm">Descripci&oacute;n</label>
-															<textarea type="text" name="detalle_py" id="detalle_py" rows="2"
+															<textarea type="text" name="descripcion" id="descripcion" rows="2"
 															placeholder="" class="form-control form-control-sm"></textarea>
 														</div>
 													</div>
@@ -461,7 +461,7 @@ label.form-control-sm{
 													<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
 														<label class="form-control-sm">Dist. Judicial</label>
 														
-														<select class="form-control form-control-sm" id="txtIdUbiDepar" name="txtIdUbiDepar">
+														<select class="form-control form-control-sm" id="id_dist_judicial" name="id_dist_judicial">
 															<option value="">- Seleccione -</option>
 															<?php foreach ($distrito_judicial as $row) {?>
 																<option value="<?php echo $row->id?>"><?php echo $row->nombre?></option>
@@ -472,7 +472,7 @@ label.form-control-sm{
 													
 													<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
 														<label class="form-control-sm">Org. Jurisdico</label>
-														<select class="form-control form-control-sm" id="txtIdUbiProv" name="txtIdUbiProv">
+														<select class="form-control form-control-sm" id="id_org_juris" name="id_org_juris">
 															<option value="">- Seleccione -</option>
 															<?php foreach ($organo as $row) {?>
 																<option value="<?php echo $row->id?>"><?php echo $row->nombre?></option>
@@ -482,7 +482,7 @@ label.form-control-sm{
 													
 													<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
 														<label class="form-control-sm">Materia</label>
-														<select class="form-control form-control-sm" id="ubigeodireccionprincipal" name="ubigeodireccionprincipal">
+														<select class="form-control form-control-sm" id="id_materia" name="id_materia">
 															<option value="">- Seleccione -</option>
 															<?php foreach ($materia as $row) {?>
 																<option value="<?php echo $row->id?>"><?php echo $row->nombre_materia?></option>
@@ -576,9 +576,9 @@ label.form-control-sm{
 												
 												<input class="btn btn-success btn-sm float-rigth" value="NUEVO" type="button" id="btnNuevo" style="padding-left:30px;padding-right:30px"/>
 												
-												<input class="btn btn-sm btn-warning float-rigth" value="EDITAR" name="guardar" type="button" id="btnGuardar" onclick="guardar_proyecto()" style="padding-left:25px;padding-right:25px;margin-left:10px" />
+												<input class="btn btn-sm btn-warning float-rigth" value="GUARDAR" name="guardar" type="button" id="btnGuardar" style="padding-left:25px;padding-right:25px;margin-left:10px" />
 												
-												<input class="btn btn-sm btn-danger float-rigth" value="ELIMINAR" name="guardar" type="button" id="btnGuardar" onclick="guardar_proyecto()" style="padding-left:20px;padding-right:20px;margin-left:10px" />
+												<input class="btn btn-sm btn-danger float-rigth" value="ELIMINAR" name="guardar" type="button" id="btnEliminar" style="padding-left:20px;padding-right:20px;margin-left:10px" />
 												
 												
 												
@@ -612,6 +612,17 @@ label.form-control-sm{
 								role="tab"
 								aria-controls="my-profile"
 								aria-selected="true">Expedientes</a>
+								
+							<a
+								class="nav-link"
+								id="two-factor-authentication-tab_"
+								data-toggle="pill"
+								href="#two-factor-authentication_"
+								role="tab"
+								aria-controls="two-factor-authentication_"
+								aria-selected="false"
+								onclick="datatable_lit()"
+								>Litigantes</a>
 
 							<a
 								class="nav-link"
@@ -620,7 +631,20 @@ label.form-control-sm{
 								href="#information"
 								role="tab"
 								aria-controls="information"
-								aria-selected="false">Movimientos</a>
+								aria-selected="false"
+								onclick="datatable_mov()"
+								>Movimientos</a>
+							
+							<a
+								class="nav-link"
+								id="seguimiento-tab"
+								data-toggle="pill"
+								href="#seguimiento"
+								role="tab"
+								aria-controls="seguimiento"
+								aria-selected="false"
+								onclick="datatable_mov___()"
+								>Seguimiento</a>
 
 							<a
 								class="nav-link"
@@ -631,14 +655,6 @@ label.form-control-sm{
 								aria-controls="two-factor-authentication"
 								aria-selected="false">Exp. Digital</a>
 							
-							<a
-								class="nav-link"
-								id="two-factor-authentication-tab_"
-								data-toggle="pill"
-								href="#two-factor-authentication_"
-								role="tab"
-								aria-controls="two-factor-authentication_"
-								aria-selected="false">Litigantes</a>
 						</div>
 					</nav>
 									
@@ -692,14 +708,18 @@ label.form-control-sm{
 									<table id="tblSolicitud" class="table table-hover table-sm">
 									<thead>
 									<tr style="font-size:13px">
-										<th>Id</th>
-										<th>Nombre Proyecto</th>
-										<th>Detalle Proyecto</th>
+										<th>Numero</th>
+										<th>A&ntilde;o</th>
+										<th>Glosa</th>
+										<th>Descripci&oacute;n</th>
 										<th>Departamento</th>
 										<th>Provincia</th>
 										<th>Distrito</th>
-										<th>Estado Proyecto</th>
+										<th>Distrito Judicial</th>
+										<th>Organo Jurisdiccional</th>
+										<th>Materia</th>
 										<th>Estado</th>
+										<th>Proyecto</th>
 									</tr>
 									</thead>
 									<tbody style="font-size:13px">
@@ -718,7 +738,37 @@ label.form-control-sm{
 
 						<div class="tab-pane fade pt-3" id="information" role="tabpanel" aria-labelledby="information-tab">
 							
-							22222222222222222222222222
+							<div class="row" style="padding-top:0px">
+
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		
+									<div class="card-body">
+									
+										<div class="table-responsive">
+											<table id="tblMovimiento" class="table table-hover table-sm">
+											<thead>
+											<tr style="font-size:13px">
+												<th>Distrito Judicial</th>
+												<th>Organo Jurisdiccional</th>
+												<th>Responsable</th>
+												<th>Estado</th>
+											</tr>
+											</thead>
+											<tbody style="font-size:13px">
+											</tbody>
+											</table>
+											
+										</div>
+								
+									</div>
+								</div>
+							
+							</div>
+							
+						</div>
+						
+						<div class="tab-pane fade pt-3" id="seguimiento" role="tabpanel" aria-labelledby="information-tab">
+						 seguimiento
 						</div>
 
 						<div class="tab-pane fade pt-3" id="two-factor-authentication" role="tabpanel" aria-labelledby="two-factor-authentication-tab">
@@ -726,7 +776,44 @@ label.form-control-sm{
 						</div>
 						
 						<div class="tab-pane fade pt-3" id="two-factor-authentication_" role="tabpanel" aria-labelledby="two-factor-authentication-tab_">
-							444444444444
+							
+							<div class="row" style="padding-top:0px">
+
+								<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+		
+									<div class="card-body">
+									
+										<div class="table-responsive">
+											<table id="tblLitigante" class="table table-hover table-sm">
+											<thead>
+											<tr style="font-size:13px">
+												<th>Documento</th>
+												<th>Litigante</th>
+												<th>Tipo Litigante</th>
+												<th>Estado</th>
+											</tr>
+											</thead>
+											<tbody style="font-size:13px">
+											</tbody>
+											</table>
+											
+										</div>
+								
+									</div>
+								</div>
+								
+								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+									
+									<input class="btn btn-success btn-sm float-right" value="NUEVO" type="button" id="btnNuevoLit" style="width:120px;margin-right:15px"/>
+									
+									<br />
+												
+									<input class="btn btn-sm btn-danger float-right" value="ELIMINAR" name="guardar" type="button" id="btnEliminarLit" style="width:120px;margin-top:20px;margin-right:15px" />
+												
+								</div>
+							
+							</div>
+							
 						</div>
 						
 					</div>
@@ -767,59 +854,6 @@ label.form-control-sm{
 
     @push('after-scripts')
     
-	<script type="text/javascript">
-	
-	$(document).ready(function() {
-		$(".upload").on('click', function() {
-			var formData = new FormData();
-			var files = $('#image')[0].files[0];
-			formData.append('file',files);
-			$.ajax({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				},
-				url: "/proyecto/upload",
-				type: 'post',
-				data: formData,
-				contentType: false,
-				processData: false,
-				success: function(response) {
-				
-					var ind_img = $("#ind_img").val();
-					
-					if (response != 0) {
-						$("#img_ruta_"+ind_img).attr("src", "/img/proyecto/tmp/"+response).show();
-						$(".delete_ruta").show();
-						$("#img_foto_"+ind_img).val(response);
-						
-						ind_img++;
-						
-						var newRow = "";
-						newRow += '<div class="img_ruta">';
-						newRow += '<img src="" id="img_ruta_'+ind_img+'" width="130px" height="165px" alt="" style="text-align:center;margin-top:8px;display:none;margin-left:10px" />';
-						newRow += '<span class="delete_ruta" style="display:none" onclick="DeleteImagen(this)"></span>';
-						newRow += '<input type="hidden" id="img_foto_'+ind_img+'" name="img_foto[]" value="" />';
-						newRow += '</div>';
-						
-						$("#divImagenes").append(newRow);
-						$("#ind_img").val(ind_img);
-						
-					} else {
-						alert('Formato de imagen incorrecto.');
-					}
-				}
-			});
-			return false;
-		});
-	
-		$(".delete").on('click', function() {
-			$("#img_ruta0").attr("src", "/dist/img/profile-icon.png");
-			$("#img_foto0").val("");
-		});
-	
-	});
-	
-	</script>
 	
 	<script src="{{ asset('js/expediente/create.js') }}"></script>
 	

@@ -5,13 +5,22 @@ $(document).ready(function () {
 	
 	datatablenew();
 	
+	$('#btnNuevoLit').on('click', function () {
+		modalLitigante(0);
+	});
+	
 	$('#addRow').on('click', function () {
 		AddFila();
 	});
 	
 	$('#btnNuevo').on('click', function () {
-		//Limpiar();
 		window.location.reload();
+	});
+	
+	$('#btnGuardar').on('click', function () {
+		guardar_expediente()
+		//Limpiar();
+		//window.location.reload();
 	});
 	/*
 	$('.delete_ruta').on('click', function () {
@@ -81,7 +90,7 @@ function aperturar(accion){
     });
 }
 
-function guardar_proyecto(){
+function guardar_expediente(){
     //alert("cvvfv");
     var msg = "";
     
@@ -91,10 +100,10 @@ function guardar_proyecto(){
 function fn_save(){
     
     $.ajax({
-			url: "/proyecto/send",
+			url: "/expediente/send",
             type: "POST",
             //data : $("#frmCita").serialize()+"&id_medico="+id_medico+"&fecha_cita="+fecha_cita,
-            data : $("#frmProyecto").serialize(),
+            data : $("#frmExpediente").serialize(),
             success: function (result) {  
                     
 					window.location.reload();
@@ -1629,7 +1638,7 @@ function ocultar_solicitud(){
 function datatablenew(){
     var oTable = $('#tblSolicitud').dataTable({
         "bServerSide": true,
-        "sAjaxSource": "/proyecto/listar_proyecto_ajax",
+        "sAjaxSource": "/expediente/listar_expediente_ajax",
         "bProcessing": true,
         "sPaginationType": "full_numbers",
         "bFilter": false,
@@ -1690,30 +1699,39 @@ function datatablenew(){
             [	
 			 	{
                 "mRender": function (data, type, row, meta) {	
-                	var id = "";
-					if(row.id!= null)id = row.id;
-					return id;
+                	var numero = "";
+					if(row.numero!= null)numero = row.numero;
+					return numero;
                 },
                 "bSortable": false,
                 "aTargets": [0]
                 },
 				{
                 "mRender": function (data, type, row) {
-                	var nombre_py = "";
-					if(row.nombre_py!= null)nombre_py = row.nombre_py;
-					return nombre_py;
+                	var anio = "";
+					if(row.anio!= null)anio = row.anio;
+					return anio;
                 },
                 "bSortable": false,
                 "aTargets": [1],
 				},
 				{
                 "mRender": function (data, type, row) {
-					var detalle_py = "";
-					if(row.detalle_py!= null)detalle_py = row.detalle_py;
-					return detalle_py;
+					var glosa = "";
+					if(row.glosa!= null)glosa = row.glosa;
+					return glosa;
                 },
                 "bSortable": false,
                 "aTargets": [2],
+                },
+				{
+                "mRender": function (data, type, row) {
+					var descripcion = "";
+					if(row.descripcion!= null)descripcion = row.descripcion;
+					return descripcion;
+                },
+                "bSortable": false,
+                "aTargets": [3],
                 },
 				{
                 "mRender": function (data, type, row) {
@@ -1722,7 +1740,7 @@ function datatablenew(){
 					return departamento;
                 },
                 "bSortable": false,
-                "aTargets": [3]
+                "aTargets": [4]
                 },
                 {
                 "mRender": function (data, type, row) {
@@ -1731,7 +1749,7 @@ function datatablenew(){
 					return provincia;
                 },
                 "bSortable": false,
-                "aTargets": [4]
+                "aTargets": [5]
                 },
 				{
                 "mRender": function (data, type, row) {
@@ -1740,26 +1758,52 @@ function datatablenew(){
 					return distrito;
                 },
                 "bSortable": false,
-                "aTargets": [5]
-                },
-				{
-                "mRender": function (data, type, row) {
-                	var estado_py = "";
-					if(row.estado_py!= null)estado_py = row.estado_py;
-					return estado_py;
-                },
-                "bSortable": false,
                 "aTargets": [6]
                 },
 				{
                 "mRender": function (data, type, row) {
-                	var estado = "";
-					if(row.estado==1)estado = "Activo";
-					if(row.estado==0)estado = "Inactivo";
-					return estado;
+                	var distrito_judicial = "";
+					if(row.distrito_judicial!= null)distrito_judicial = row.distrito_judicial;
+					return distrito_judicial;
                 },
                 "bSortable": false,
                 "aTargets": [7]
+                },
+				{
+                "mRender": function (data, type, row) {
+                	var organo_jurisdiccional = "";
+					if(row.organo_jurisdiccional!= null)organo_jurisdiccional = row.organo_jurisdiccional;
+					return organo_jurisdiccional;
+                },
+                "bSortable": false,
+                "aTargets": [8]
+                },
+				{
+                "mRender": function (data, type, row) {
+                	var nombre_materia = "";
+					if(row.nombre_materia!= null)nombre_materia = row.nombre_materia;
+					return nombre_materia;
+                },
+                "bSortable": false,
+                "aTargets": [9]
+                },
+				{
+                "mRender": function (data, type, row) {
+                	var estado_exp = "";
+					if(row.estado_exp!= null)estado_exp = row.estado_exp;
+					return estado_exp;
+                },
+                "bSortable": false,
+                "aTargets": [10]
+                },
+				{
+                "mRender": function (data, type, row) {
+                	var nombre_py = "";
+					if(row.nombre_py!= null)nombre_py = row.nombre_py;
+					return nombre_py;
+                },
+                "bSortable": false,
+                "aTargets": [11]
                 },
 				
             ]
@@ -1795,26 +1839,243 @@ function datatablenew(){
 			
 			var odtable = $("#tblSolicitud").DataTable();
 			
-			var idProyecto = odtable.row(this).data().id;
+			var idExpediente = odtable.row(this).data().id;
 			
-			obtenerProyecto(idProyecto);
-			
-			
-			/*
-			var id_estado = odtable.row(this).data().id_estado;
-			if(id_estado == 5){
-				bootbox.alert("La solicitud ya se encuentra desembolsado");
-				return false;
-			}else{
-				modalSolicitud(idSolicitud);	
-			}
-			*/
+			obtenerExpediente(idExpediente);
 			
 		}
 	});
 
 }
 
+
+function datatable_mov(){
+    var oTable = $('#tblMovimiento').dataTable({
+        "bServerSide": true,
+        "sAjaxSource": "/expediente/listar_expediente_movimiento_ajax",
+        "bProcessing": true,
+        "sPaginationType": "full_numbers",
+        "bFilter": false,
+        "bSort": false,
+        "info": true,
+        "language": {"url": "/js/Spanish.json"},
+        "autoWidth": false,
+        "bLengthChange": true,
+        "destroy": true,
+        "lengthMenu": [[10, 50, 100, 200, 60000], [10, 50, 100, 200, "Todos"]],
+        "aoColumns": [
+                        {},
+        ],
+		"dom": '<"top">rt<"bottom"flpi><"clear">',
+        "fnDrawCallback": function(json) {
+            $('[data-toggle="tooltip"]').tooltip();
+        },
+
+        "fnServerData": function (sSource, aoData, fnCallback, oSettings) {
+
+            var sEcho           = aoData[0].value;
+            var iNroPagina 	= parseFloat(fn_util_obtieneNroPagina(aoData[3].value, aoData[4].value)).toFixed();
+            var iCantMostrar 	= aoData[4].value;
+			
+			var nombre_py_bus = $('#nombre_py_bus').val();
+			var detalle_py_bus = $('#detalle_py_bus').val();
+			var estado = $('#estado').val();
+			var estado_py = $('#estado_py_bus').val();
+			
+			var _token = $('#_token').val();
+            oSettings.jqXHR = $.ajax({
+				"dataType": 'json',
+                "type": "POST",
+                "url": sSource,
+                "data":{NumeroPagina:iNroPagina,NumeroRegistros:iCantMostrar,
+						nombre_py_bus:nombre_py_bus,detalle_py_bus:detalle_py_bus,
+						estado:estado,estado_py:estado_py,
+						_token:_token
+                       },
+                "success": function (result) {
+                    fnCallback(result);
+					
+					//var moneda = result.aaData[0].moneda;
+					//alert(moneda);
+					
+					
+                },
+                "error": function (msg, textStatus, errorThrown) {
+                }
+            });
+        },
+		"fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+			if (aData.moneda == "DOLARES") {
+				$('td', nRow).addClass('verde');
+			} 
+		},
+        "aoColumnDefs":
+            [	
+			 	{
+                "mRender": function (data, type, row, meta) {	
+                	var distrito_judicial = "";
+					if(row.distrito_judicial!= null)distrito_judicial = row.distrito_judicial;
+					return distrito_judicial;
+                },
+                "bSortable": false,
+                "aTargets": [0]
+                },
+				{
+                "mRender": function (data, type, row) {
+                	var organo_jurisdiccional = "";
+					if(row.organo_jurisdiccional!= null)organo_jurisdiccional = row.organo_jurisdiccional;
+					return organo_jurisdiccional;
+                },
+                "bSortable": false,
+                "aTargets": [1],
+				},
+				{
+                "mRender": function (data, type, row) {
+					var responsable = "";
+					if(row.responsable!= null)responsable = row.responsable;
+					return responsable;
+                },
+                "bSortable": false,
+                "aTargets": [2],
+                },
+				{
+                "mRender": function (data, type, row) {
+					var estado_mov = "";
+					if(row.estado_mov!= null)estado_mov = row.estado_mov;
+					return estado_mov;
+                },
+                "bSortable": false,
+                "aTargets": [3],
+                },
+				
+            ]
+
+
+    });
+
+}
+
+function datatable_lit(){
+    var oTable = $('#tblLitigante').dataTable({
+        "bServerSide": true,
+        "sAjaxSource": "/expediente/listar_expediente_litigante_ajax",
+        "bProcessing": true,
+        "sPaginationType": "full_numbers",
+        "bFilter": false,
+        "bSort": false,
+        "info": true,
+        "language": {"url": "/js/Spanish.json"},
+        "autoWidth": false,
+        "bLengthChange": true,
+        "destroy": true,
+        "lengthMenu": [[10, 50, 100, 200, 60000], [10, 50, 100, 200, "Todos"]],
+        "aoColumns": [
+                        {},
+        ],
+		"dom": '<"top">rt<"bottom"flpi><"clear">',
+        "fnDrawCallback": function(json) {
+            $('[data-toggle="tooltip"]').tooltip();
+        },
+
+        "fnServerData": function (sSource, aoData, fnCallback, oSettings) {
+
+            var sEcho           = aoData[0].value;
+            var iNroPagina 	= parseFloat(fn_util_obtieneNroPagina(aoData[3].value, aoData[4].value)).toFixed();
+            var iCantMostrar 	= aoData[4].value;
+			
+			var nombre_py_bus = $('#nombre_py_bus').val();
+			var detalle_py_bus = $('#detalle_py_bus').val();
+			var estado = $('#estado').val();
+			var estado_py = $('#estado_py_bus').val();
+			
+			var _token = $('#_token').val();
+            oSettings.jqXHR = $.ajax({
+				"dataType": 'json',
+                "type": "POST",
+                "url": sSource,
+                "data":{NumeroPagina:iNroPagina,NumeroRegistros:iCantMostrar,
+						nombre_py_bus:nombre_py_bus,detalle_py_bus:detalle_py_bus,
+						estado:estado,estado_py:estado_py,
+						_token:_token
+                       },
+                "success": function (result) {
+                    fnCallback(result);
+					
+					//var moneda = result.aaData[0].moneda;
+					//alert(moneda);
+					
+					
+                },
+                "error": function (msg, textStatus, errorThrown) {
+                }
+            });
+        },
+		"fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+			if (aData.moneda == "DOLARES") {
+				$('td', nRow).addClass('verde');
+			} 
+		},
+        "aoColumnDefs":
+            [	
+			 	{
+                "mRender": function (data, type, row, meta) {	
+                	var numero_documento = "";
+					if(row.numero_documento!= null)numero_documento = row.numero_documento;
+					return numero_documento;
+                },
+                "bSortable": false,
+                "aTargets": [0]
+                },
+				{
+                "mRender": function (data, type, row) {
+                	var litigante = "";
+					if(row.litigante!= null)litigante = row.litigante;
+					return litigante;
+                },
+                "bSortable": false,
+                "aTargets": [1],
+				},
+				{
+                "mRender": function (data, type, row) {
+					var tipo_litigante = "";
+					if(row.tipo_litigante!= null)tipo_litigante = row.tipo_litigante;
+					return tipo_litigante;
+                },
+                "bSortable": false,
+                "aTargets": [2],
+                },
+				{
+                "mRender": function (data, type, row) {
+					var estado_lit = "";
+					if(row.estado_lit!= null)estado_lit = row.estado_lit;
+					return estado_lit;
+                },
+                "bSortable": false,
+                "aTargets": [3],
+                },
+				
+            ]
+
+
+    });
+	
+	fn_util_LineaDatatable("#tblLitigante");
+
+	$('#tblLitigante tbody').on('dblclick', 'tr', function () {
+		var anSelected = fn_util_ObtenerNumeroFila(oTable);
+		if (anSelected.length != 0) {
+			
+			var odtable = $("#tblLitigante").DataTable();
+			
+			var idLitigante = odtable.row(this).data().id;
+			
+			modalLitigante(idLitigante);
+			//obtenerExpediente(idLitigante);
+			
+		}
+	});
+
+}
 
 function modalSolicitud(idSolicitud){
 	
@@ -2032,6 +2293,50 @@ function obtenerProyecto(id){
 	});
 	
 }
+
+function obtenerExpediente(id){
+	
+	$('#id_proyecto_info').val("");
+	$('#detalle_py_info').val("");
+	$('#estado_py_info').val("");
+	
+	$.ajax({
+		url: '/expediente/obtener_expediente/'+id,
+		dataType: "json",
+		success: function(result){
+			
+			
+			var expediente = result.expediente;
+			var proyecto = result.proyecto;
+			
+			var idDepartamento = expediente.cod_ubigeo.substring(0,2);
+			var idProvincia = expediente.cod_ubigeo.substring(0,4);
+			console.log(expediente.cod_ubigeo);
+			$('#id_expediente').val(id);
+			$('#numero').val(expediente.numero);
+			$('#anio').val(expediente.anio);
+			$('#glosa').val(expediente.glosa);
+			$('#descripcion').val(expediente.descripcion);
+			$('#id_dist_judicial').val(expediente.id_dist_judicial);
+			$('#id_org_juris').val(expediente.id_org_juris);
+			$('#id_materia').val(expediente.id_materia);
+			$('#estado_exp').val(expediente.estado_exp);
+			$('#txtIdUbiDepar').val(idDepartamento);
+			//alert(expediente.id_proyecto);
+			$('#id_proyecto').val(expediente.id_proyecto).select2();
+			$('#id_proyecto_info').val(proyecto.id);
+			$('#detalle_py_info').val(proyecto.detalle_py);
+			$('#estado_py_info').val(proyecto.nombre_estado_py);
+			
+			obtenerProvinciaEdit(idProvincia);
+			obtenerDistritoEdit(idProvincia,expediente.cod_ubigeo);
+			//obtenerProyectoEdit(expediente.id_proyecto);
+		}
+		
+	});
+	
+}
+
 
 function obtenerBeneficiario(){
 		
@@ -2396,4 +2701,20 @@ function obtenerDistritoEdit(idProvincia,idDistrito){
 		
 	});
 	
+}
+
+function modalLitigante(id){
+	
+	$(".modal-dialog").css("width","85%");
+	$('#openOverlayOpc .modal-body').css('height', 'auto');
+
+	$.ajax({
+			url: "/expediente/modal_expediente_litigante/"+id,
+			type: "GET",
+			success: function (result) {  
+					$("#diveditpregOpc").html(result);
+					$('#openOverlayOpc').modal('show');
+			}
+	});
+
 }

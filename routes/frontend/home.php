@@ -63,10 +63,13 @@ Route::get('ingresos_gastos', [IngresoGastoController::class, 'index'])->name('i
 
 Route::get('expediente', [ExpedienteController::class, 'index'])->name('expediente');
 Route::get('expediente/obtener_proyecto/{id}', [ExpedienteController::class, 'obtener_proyecto'])->name('expediente.obtener_proyecto');
-
-
-
-
+Route::post('expediente/listar_expediente_ajax', [ExpedienteController::class, 'listar_expediente_ajax'])->name('expediente.listar_expediente_ajax');
+Route::post('expediente/send', [ExpedienteController::class, 'send'])->name('expediente.send');
+Route::get('expediente/obtener_expediente/{id}', [ExpedienteController::class, 'obtener_expediente'])->name('expediente.obtener_expediente');
+Route::post('expediente/listar_expediente_movimiento_ajax', [ExpedienteController::class, 'listar_expediente_movimiento_ajax'])->name('expediente.listar_expediente_movimiento_ajax');
+Route::post('expediente/listar_expediente_litigante_ajax', [ExpedienteController::class, 'listar_expediente_litigante_ajax'])->name('expediente.listar_expediente_litigante_ajax');
+Route::get('expediente/modal_expediente_litigante/{id}', [ExpedienteController::class, 'modal_expediente_litigante'])->name('expediente.modal_expediente_litigante');
+Route::post('expediente/send_litigante', [ExpedienteController::class, 'send_litigante'])->name('expediente.send_litigante');
 
 
 
