@@ -70,6 +70,9 @@ Route::post('expediente/listar_expediente_movimiento_ajax', [ExpedienteControlle
 Route::post('expediente/listar_expediente_litigante_ajax', [ExpedienteController::class, 'listar_expediente_litigante_ajax'])->name('expediente.listar_expediente_litigante_ajax');
 Route::get('expediente/modal_expediente_litigante/{id}', [ExpedienteController::class, 'modal_expediente_litigante'])->name('expediente.modal_expediente_litigante');
 Route::post('expediente/send_litigante', [ExpedienteController::class, 'send_litigante'])->name('expediente.send_litigante');
+Route::get('expediente/modal_expediente_movimiento/{id}', [ExpedienteController::class, 'modal_expediente_movimiento'])->name('expediente.modal_expediente_movimiento');
+Route::post('expediente/send_movimiento', [ExpedienteController::class, 'send_movimiento'])->name('expediente.send_movimiento');
+Route::post('expediente/listar_expediente_movimiento_seguimiento_ajax', [ExpedienteController::class, 'listar_expediente_movimiento_seguimiento_ajax'])->name('expediente.listar_expediente_movimiento_seguimiento_ajax');
 
 
 

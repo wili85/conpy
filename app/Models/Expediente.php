@@ -28,6 +28,10 @@ where e.id=".$id;
 		return $this->readFunctionPostgres('sp_listar_expediente_movimiento_paginado',$p);
     }
 	
+	public function listar_expediente_movimiento_seguimiento_ajax($p){
+		return $this->readFunctionPostgres('sp_listar_expediente_movimiento_seguimiento_paginado',$p);
+    }
+	
 	public function listar_expediente_litigante_ajax($p){
 		return $this->readFunctionPostgres('sp_listar_expediente_litigante_paginado',$p);
     }

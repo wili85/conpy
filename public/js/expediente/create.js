@@ -9,6 +9,10 @@ $(document).ready(function () {
 		modalLitigante(0);
 	});
 	
+	$('#btnNuevoMov').on('click', function () {
+		modalMovimiento(0);
+	});
+	
 	$('#addRow').on('click', function () {
 		AddFila();
 	});
@@ -1838,7 +1842,7 @@ function datatablenew(){
 		if (anSelected.length != 0) {
 			
 			var odtable = $("#tblSolicitud").DataTable();
-			
+			//console.log(odtable.row(this).data());
 			var idExpediente = odtable.row(this).data().id;
 			
 			obtenerExpediente(idExpediente);
@@ -1947,12 +1951,159 @@ function datatable_mov(){
                 "bSortable": false,
                 "aTargets": [3],
                 },
+				{
+                "mRender": function (data, type, row) {
+					var detalle = "";
+					if(row.detalle!= null)detalle = row.detalle;
+					return detalle;
+                },
+                "bSortable": false,
+                "aTargets": [4],
+                },
 				
             ]
 
 
     });
+	
+	fn_util_LineaDatatable("#tblMovimiento");
 
+	$('#tblMovimiento tbody').on('dblclick', 'tr', function () {
+		var anSelected = fn_util_ObtenerNumeroFila(oTable);
+		if (anSelected.length != 0) {
+			
+			var odtable = $("#tblMovimiento").DataTable();
+			
+			var idMovimiento = odtable.row(this).data().id;
+			
+			modalMovimiento(idMovimiento);
+			//obtenerExpediente(idLitigante);
+			
+		}
+	});
+	
+}
+
+function datatable_seg(){
+    var oTable = $('#tblSeguimiento').dataTable({
+        "bServerSide": true,
+        "sAjaxSource": "/expediente/listar_expediente_movimiento_seguimiento_ajax",
+        "bProcessing": true,
+        "sPaginationType": "full_numbers",
+        "bFilter": false,
+        "bSort": false,
+        "info": true,
+        "language": {"url": "/js/Spanish.json"},
+        "autoWidth": false,
+        "bLengthChange": true,
+        "destroy": true,
+        "lengthMenu": [[10, 50, 100, 200, 60000], [10, 50, 100, 200, "Todos"]],
+        "aoColumns": [
+                        {},
+        ],
+		"dom": '<"top">rt<"bottom"flpi><"clear">',
+        "fnDrawCallback": function(json) {
+            $('[data-toggle="tooltip"]').tooltip();
+        },
+
+        "fnServerData": function (sSource, aoData, fnCallback, oSettings) {
+
+            var sEcho           = aoData[0].value;
+            var iNroPagina 	= parseFloat(fn_util_obtieneNroPagina(aoData[3].value, aoData[4].value)).toFixed();
+            var iCantMostrar 	= aoData[4].value;
+			
+			var nombre_py_bus = $('#nombre_py_bus').val();
+			var detalle_py_bus = $('#detalle_py_bus').val();
+			var estado = $('#estado').val();
+			var estado_py = $('#estado_py_bus').val();
+			
+			var _token = $('#_token').val();
+            oSettings.jqXHR = $.ajax({
+				"dataType": 'json',
+                "type": "POST",
+                "url": sSource,
+                "data":{NumeroPagina:iNroPagina,NumeroRegistros:iCantMostrar,
+						nombre_py_bus:nombre_py_bus,detalle_py_bus:detalle_py_bus,
+						estado:estado,estado_py:estado_py,
+						_token:_token
+                       },
+                "success": function (result) {
+                    fnCallback(result);
+					
+					//var moneda = result.aaData[0].moneda;
+					//alert(moneda);
+					
+					
+                },
+                "error": function (msg, textStatus, errorThrown) {
+                }
+            });
+        },
+		"fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+			if (aData.moneda == "DOLARES") {
+				$('td', nRow).addClass('verde');
+			} 
+		},
+        "aoColumnDefs":
+            [	
+			 	{
+                "mRender": function (data, type, row, meta) {	
+                	var fecha_seguimiento = "";
+					if(row.fecha_seguimiento!= null)fecha_seguimiento = row.fecha_seguimiento;
+					return fecha_seguimiento;
+                },
+                "bSortable": false,
+                "aTargets": [0]
+                },
+				{
+                "mRender": function (data, type, row) {
+                	var Observacion = "";
+					if(row.Observacion!= null)Observacion = row.Observacion;
+					return Observacion;
+                },
+                "bSortable": false,
+                "aTargets": [1],
+				},
+				{
+                "mRender": function (data, type, row) {
+					var fecha_proximo_seguimiento = "";
+					if(row.fecha_proximo_seguimiento!= null)fecha_proximo_seguimiento = row.fecha_proximo_seguimiento;
+					return fecha_proximo_seguimiento;
+                },
+                "bSortable": false,
+                "aTargets": [2],
+                },
+				{
+                "mRender": function (data, type, row) {
+					var estado_seg = "";
+					if(row.estado_seg!= null)estado_seg = row.estado_seg;
+					return estado_seg;
+                },
+                "bSortable": false,
+                "aTargets": [3],
+                },
+				
+            ]
+
+
+    });
+	
+	/*
+	fn_util_LineaDatatable("#tblMovimiento");
+
+	$('#tblMovimiento tbody').on('dblclick', 'tr', function () {
+		var anSelected = fn_util_ObtenerNumeroFila(oTable);
+		if (anSelected.length != 0) {
+			
+			var odtable = $("#tblMovimiento").DataTable();
+			
+			var idMovimiento = odtable.row(this).data().id;
+			
+			modalMovimiento(idMovimiento);
+			
+		}
+	});
+	*/
 }
 
 function datatable_lit(){
@@ -2718,3 +2869,21 @@ function modalLitigante(id){
 	});
 
 }
+
+function modalMovimiento(id){
+	
+	$(".modal-dialog").css("width","85%");
+	$('#openOverlayOpc .modal-body').css('height', 'auto');
+
+	$.ajax({
+			url: "/expediente/modal_expediente_movimiento/"+id,
+			type: "GET",
+			success: function (result) {  
+					$("#diveditpregOpc").html(result);
+					$('#openOverlayOpc').modal('show');
+			}
+	});
+
+}
+
+

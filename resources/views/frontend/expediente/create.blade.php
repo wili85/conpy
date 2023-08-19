@@ -643,7 +643,7 @@ label.form-control-sm{
 								role="tab"
 								aria-controls="seguimiento"
 								aria-selected="false"
-								onclick="datatable_mov___()"
+								onclick="datatable_seg()"
 								>Seguimiento</a>
 
 							<a
@@ -740,7 +740,7 @@ label.form-control-sm{
 							
 							<div class="row" style="padding-top:0px">
 
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
 		
 									<div class="card-body">
 									
@@ -752,6 +752,7 @@ label.form-control-sm{
 												<th>Organo Jurisdiccional</th>
 												<th>Responsable</th>
 												<th>Estado</th>
+												<th>Detalle</th>
 											</tr>
 											</thead>
 											<tbody style="font-size:13px">
@@ -762,13 +763,63 @@ label.form-control-sm{
 								
 									</div>
 								</div>
+								
+								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+									
+									<input class="btn btn-success btn-sm float-right" value="NUEVO" type="button" id="btnNuevoMov" style="width:120px;margin-right:15px"/>
+									
+									<br />
+												
+									<input class="btn btn-sm btn-danger float-right" value="ELIMINAR" name="guardar" type="button" id="btnEliminarMov" style="width:120px;margin-top:20px;margin-right:15px" />
+												
+								</div>
+								
 							
 							</div>
 							
 						</div>
 						
 						<div class="tab-pane fade pt-3" id="seguimiento" role="tabpanel" aria-labelledby="information-tab">
-						 seguimiento
+						 
+						 	<div class="row" style="padding-top:0px">
+
+								<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+		
+									<div class="card-body">
+									
+										<div class="table-responsive">
+											<table id="tblSeguimiento" class="table table-hover table-sm">
+											<thead>
+											<tr style="font-size:13px">
+												<th>Fecha seguimiento</th>
+												<th>Observaci&oacute;n</th>
+												<th>Fecha proximo seguimiento</th>
+												<th>Estado</th>
+											</tr>
+											</thead>
+											<tbody style="font-size:13px">
+											</tbody>
+											</table>
+											
+										</div>
+								
+									</div>
+								</div>
+								
+								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+									
+									<input class="btn btn-success btn-sm float-right" value="NUEVO" type="button" id="btnNuevoMov" style="width:120px;margin-right:15px"/>
+									
+									<br />
+												
+									<input class="btn btn-sm btn-danger float-right" value="ELIMINAR" name="guardar" type="button" id="btnEliminarMov" style="width:120px;margin-top:20px;margin-right:15px" />
+												
+								</div>
+								
+							
+							</div>
+							
+						 
 						</div>
 
 						<div class="tab-pane fade pt-3" id="two-factor-authentication" role="tabpanel" aria-labelledby="two-factor-authentication-tab">

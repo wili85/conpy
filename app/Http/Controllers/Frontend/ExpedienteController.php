@@ -11,6 +11,8 @@ use App\Models\MateriaExpediente;
 use App\Models\OrganoJurisdiccionale;
 use App\Models\DistritoJudiciale;
 use App\Models\Litigante;
+use App\Models\Empleado;
+use App\Models\MovExpediente;
 use Auth;
 
 class ExpedienteController extends Controller
@@ -135,6 +137,27 @@ class ExpedienteController extends Controller
 
 	}
 	
+	public function listar_expediente_movimiento_seguimiento_ajax(Request $request){
+
+		$expediente_model = new Expediente;
+		$p[]=1;
+		$p[]=$request->NumeroPagina;
+		$p[]=$request->NumeroRegistros;
+		$data = $expediente_model->listar_expediente_movimiento_seguimiento_ajax($p);
+		$iTotalDisplayRecords = isset($data[0]->totalrows)?$data[0]->totalrows:0;
+
+		$result["PageStart"] = $request->NumeroPagina;
+		$result["pageSize"] = $request->NumeroRegistros;
+		$result["SearchText"] = "";
+		$result["ShowChildren"] = true;
+		$result["iTotalRecords"] = $iTotalDisplayRecords;
+		$result["iTotalDisplayRecords"] = $iTotalDisplayRecords;
+		$result["aaData"] = $data;
+
+		echo json_encode($result);
+
+	}
+	
 	public function listar_expediente_litigante_ajax(Request $request){
 
 		$expediente_model = new Expediente;
@@ -170,6 +193,30 @@ class ExpedienteController extends Controller
 		$estado_litigante = $tablaMaestra_model->getMaestroByTipo("EST_LIT");
 		
 		return view('frontend.expediente.modal_litigante',compact('id','litigante','tipo_litigante','estado_litigante'));
+	
+	}
+	
+	public function modal_expediente_movimiento($id){
+		
+		$organoJurisdiccionale_model = new OrganoJurisdiccionale;
+		$distritoJudiciale_model = new DistritoJudiciale;
+		$empleado_model = new Empleado;
+		$tablaMaestra_model = new TablaMaestra;
+		
+		if($id>0){
+			//$litigante_model = new Litigante;
+			//$litigante = $litigante_model->getLitiganteById($id);
+			$movExpediente = MovExpediente::find($id);
+		}else{
+			$movExpediente = new MovExpediente;
+		}
+		
+		$organo = $organoJurisdiccionale_model->getOrgano();
+		$distrito_judicial = $distritoJudiciale_model->getDistritoJudicial();
+		$empleado = $empleado_model->getEmpleado();
+		$estado_movimiento = $tablaMaestra_model->getMaestroByTipo("EST_MOV");
+		
+		return view('frontend.expediente.modal_movimiento',compact('id','movExpediente','organo','distrito_judicial','empleado','estado_movimiento'));
 	
 	}
 	
@@ -209,6 +256,35 @@ class ExpedienteController extends Controller
 			$litigante->id_empresa = $id_empresa;
 			$litigante->estado = "1";
 			$litigante->save();
+		}
+		
+		
+    }
+	
+	public function send_movimiento(Request $request){
+		
+		if($request->id == 0){
+			$movExpediente = new MovExpediente;
+			$movExpediente->id_expediente = 4;
+			$movExpediente->id_dist_judicial = $request->id_dist_judicial;
+			$movExpediente->id_org_juris = $request->id_org_juris;
+			$movExpediente->id_empleado = $request->id_empleado;
+			$movExpediente->estado_mov = $request->estado_mov;
+			$movExpediente->estado = "1";
+			$movExpediente->id_exp_digital=0;
+			$movExpediente->detalle = $request->detalle;
+			$movExpediente->save();		
+		}else{
+			$movExpediente = MovExpediente::find($request->id);
+			$movExpediente->id_expediente = 4;
+			$movExpediente->id_dist_judicial = $request->id_dist_judicial;
+			$movExpediente->id_org_juris = $request->id_org_juris;
+			$movExpediente->id_empleado = $request->id_empleado;
+			$movExpediente->estado_mov = $request->estado_mov;
+			$movExpediente->estado = "1";
+			$movExpediente->id_exp_digital=0;
+			$movExpediente->detalle = $request->detalle;
+			$movExpediente->save();
 		}
 		
 		
