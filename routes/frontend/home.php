@@ -73,6 +73,10 @@ Route::post('expediente/send_litigante', [ExpedienteController::class, 'send_lit
 Route::get('expediente/modal_expediente_movimiento/{id}', [ExpedienteController::class, 'modal_expediente_movimiento'])->name('expediente.modal_expediente_movimiento');
 Route::post('expediente/send_movimiento', [ExpedienteController::class, 'send_movimiento'])->name('expediente.send_movimiento');
 Route::post('expediente/listar_expediente_movimiento_seguimiento_ajax', [ExpedienteController::class, 'listar_expediente_movimiento_seguimiento_ajax'])->name('expediente.listar_expediente_movimiento_seguimiento_ajax');
-
+Route::get('expediente/modal_expediente_seguimiento/{id}', [ExpedienteController::class, 'modal_expediente_seguimiento'])->name('expediente.modal_expediente_seguimiento');
+Route::post('expediente/send_seguimiento', [ExpedienteController::class, 'send_seguimiento'])->name('expediente.send_seguimiento');
+Route::get('expediente/eliminar_litigante/{id}', [ExpedienteController::class, 'eliminar_litigante'])->name('expediente.eliminar_litigante');
+Route::get('expediente/eliminar_movimiento/{id}', [ExpedienteController::class, 'eliminar_movimiento'])->name('expediente.eliminar_movimiento');
+Route::get('expediente/eliminar_seguimiento/{id}', [ExpedienteController::class, 'eliminar_seguimiento'])->name('expediente.eliminar_seguimiento');
 
 

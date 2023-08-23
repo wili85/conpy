@@ -2,8 +2,12 @@
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>
 <style type="text/css">
 
+.row_selected{
+	background:#CAE983 !important
+}
+
 .table td.verde{
-	background:#CAE983  !important
+	background:#CAE983 !important
 }
 
 body {
@@ -745,6 +749,7 @@ label.form-control-sm{
 									<div class="card-body">
 									
 										<div class="table-responsive">
+											<input type="hidden" name="idMovimiento" id="idMovimiento" value="0">
 											<table id="tblMovimiento" class="table table-hover table-sm">
 											<thead>
 											<tr style="font-size:13px">
@@ -788,6 +793,7 @@ label.form-control-sm{
 									<div class="card-body">
 									
 										<div class="table-responsive">
+											<input type="hidden" name="idSeguimiento" id="idSeguimiento" value="0">
 											<table id="tblSeguimiento" class="table table-hover table-sm">
 											<thead>
 											<tr style="font-size:13px">
@@ -808,11 +814,11 @@ label.form-control-sm{
 								
 								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
 									
-									<input class="btn btn-success btn-sm float-right" value="NUEVO" type="button" id="btnNuevoMov" style="width:120px;margin-right:15px"/>
+									<input class="btn btn-success btn-sm float-right" value="NUEVO" type="button" id="btnNuevoSeg" style="width:120px;margin-right:15px"/>
 									
 									<br />
 												
-									<input class="btn btn-sm btn-danger float-right" value="ELIMINAR" name="guardar" type="button" id="btnEliminarMov" style="width:120px;margin-top:20px;margin-right:15px" />
+									<input class="btn btn-sm btn-danger float-right" value="ELIMINAR" name="guardar" type="button" id="btnEliminarSeg" style="width:120px;margin-top:20px;margin-right:15px" />
 												
 								</div>
 								
@@ -835,6 +841,7 @@ label.form-control-sm{
 									<div class="card-body">
 									
 										<div class="table-responsive">
+											<input type="hidden" name="idLitigante" id="idLitigante" value="0">
 											<table id="tblLitigante" class="table table-hover table-sm">
 											<thead>
 											<tr style="font-size:13px">

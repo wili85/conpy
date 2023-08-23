@@ -9,8 +9,24 @@ $(document).ready(function () {
 		modalLitigante(0);
 	});
 	
+	$('#btnEliminarLit').on('click', function () {
+		eliminarLit();
+	});
+	
+	$('#btnEliminarMov').on('click', function () {
+		eliminarMov();
+	});
+	
+	$('#btnEliminarSeg').on('click', function () {
+		eliminarSeg();
+	});
+	
 	$('#btnNuevoMov').on('click', function () {
 		modalMovimiento(0);
+	});
+	
+	$('#btnNuevoSeg').on('click', function () {
+		modalSeguimiento(0);
 	});
 	
 	$('#addRow').on('click', function () {
@@ -1982,6 +1998,19 @@ function datatable_mov(){
 		}
 	});
 	
+	$('#tblMovimiento tbody').on('click', 'tr', function () {
+		var anSelected = fn_util_ObtenerNumeroFila(oTable);
+		if (anSelected.length != 0) {
+			
+			var odtable = $("#tblMovimiento").DataTable();
+			
+			var idMovimiento = odtable.row(this).data().id;
+			
+			$("#idMovimiento").val(idMovimiento);
+			
+		}
+	});
+	
 }
 
 function datatable_seg(){
@@ -2088,22 +2117,35 @@ function datatable_seg(){
 
     });
 	
-	/*
-	fn_util_LineaDatatable("#tblMovimiento");
+	
+	fn_util_LineaDatatable("#tblSeguimiento");
 
-	$('#tblMovimiento tbody').on('dblclick', 'tr', function () {
+	$('#tblSeguimiento tbody').on('dblclick', 'tr', function () {
 		var anSelected = fn_util_ObtenerNumeroFila(oTable);
 		if (anSelected.length != 0) {
 			
-			var odtable = $("#tblMovimiento").DataTable();
+			var odtable = $("#tblSeguimiento").DataTable();
 			
-			var idMovimiento = odtable.row(this).data().id;
+			var idSeguimiento = odtable.row(this).data().id;
 			
-			modalMovimiento(idMovimiento);
+			modalSeguimiento(idSeguimiento);
 			
 		}
 	});
-	*/
+	
+	$('#tblSeguimiento tbody').on('click', 'tr', function () {
+		var anSelected = fn_util_ObtenerNumeroFila(oTable);
+		if (anSelected.length != 0) {
+			
+			var odtable = $("#tblSeguimiento").DataTable();
+			
+			var idSeguimiento = odtable.row(this).data().id;
+			
+			$("#idSeguimiento").val(idSeguimiento);
+			
+		}
+	});
+	
 }
 
 function datatable_lit(){
@@ -2225,6 +2267,21 @@ function datatable_lit(){
 			
 		}
 	});
+	
+	
+	$('#tblLitigante tbody').on('click', 'tr', function () {
+		var anSelected = fn_util_ObtenerNumeroFila(oTable);
+		if (anSelected.length != 0) {
+			
+			var odtable = $("#tblLitigante").DataTable();
+			
+			var idLitigante = odtable.row(this).data().id;
+			
+			$("#idLitigante").val(idLitigante);
+			
+		}
+	});
+	
 
 }
 
@@ -2885,5 +2942,105 @@ function modalMovimiento(id){
 	});
 
 }
+
+function modalSeguimiento(id){
+	
+	$(".modal-dialog").css("width","85%");
+	$('#openOverlayOpc .modal-body').css('height', 'auto');
+
+	$.ajax({
+			url: "/expediente/modal_expediente_seguimiento/"+id,
+			type: "GET",
+			success: function (result) {  
+					$("#diveditpregOpc").html(result);
+					$('#openOverlayOpc').modal('show');
+			}
+	});
+
+}
+
+
+function eliminarLit(){
+	
+	var id = $("#idLitigante").val();
+	
+    bootbox.confirm({ 
+        size: "small",
+        message: "&iquest;Deseas eliminar el Litigante?", 
+        callback: function(result){
+            if (result==true) {
+                fn_eliminar_lit(id);
+            }
+        }
+    });
+    $(".modal-dialog").css("width","30%");
+}
+
+function fn_eliminar_lit(id){
+	
+	$.ajax({
+            url: "/expediente/eliminar_litigante/"+id,
+            type: "GET",
+            success: function (result) {
+				datatable_lit();
+            }
+    });
+}
+
+function eliminarMov(){
+	
+	var id = $("#idMovimiento").val();
+	
+    bootbox.confirm({ 
+        size: "small",
+        message: "&iquest;Deseas eliminar el Movimiento?", 
+        callback: function(result){
+            if (result==true) {
+                fn_eliminar_mov(id);
+            }
+        }
+    });
+    $(".modal-dialog").css("width","30%");
+}
+
+function fn_eliminar_mov(id){
+	
+	$.ajax({
+            url: "/expediente/eliminar_movimiento/"+id,
+            type: "GET",
+            success: function (result) {
+				datatable_mov();
+            }
+    });
+}
+
+function eliminarSeg(){
+	
+	var id = $("#idSeguimiento").val();
+	
+    bootbox.confirm({ 
+        size: "small",
+        message: "&iquest;Deseas eliminar el Seguimiento?", 
+        callback: function(result){
+            if (result==true) {
+                fn_eliminar_seg(id);
+            }
+        }
+    });
+    $(".modal-dialog").css("width","30%");
+}
+
+function fn_eliminar_seg(id){
+	
+	$.ajax({
+            url: "/expediente/eliminar_seguimiento/"+id,
+            type: "GET",
+            success: function (result) {
+				datatable_seg();
+            }
+    });
+}
+
+
 
 

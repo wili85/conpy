@@ -13,6 +13,7 @@ use App\Models\DistritoJudiciale;
 use App\Models\Litigante;
 use App\Models\Empleado;
 use App\Models\MovExpediente;
+use App\Models\Seguimiento;
 use Auth;
 
 class ExpedienteController extends Controller
@@ -204,8 +205,6 @@ class ExpedienteController extends Controller
 		$tablaMaestra_model = new TablaMaestra;
 		
 		if($id>0){
-			//$litigante_model = new Litigante;
-			//$litigante = $litigante_model->getLitiganteById($id);
 			$movExpediente = MovExpediente::find($id);
 		}else{
 			$movExpediente = new MovExpediente;
@@ -217,6 +216,21 @@ class ExpedienteController extends Controller
 		$estado_movimiento = $tablaMaestra_model->getMaestroByTipo("EST_MOV");
 		
 		return view('frontend.expediente.modal_movimiento',compact('id','movExpediente','organo','distrito_judicial','empleado','estado_movimiento'));
+	
+	}
+	
+	public function modal_expediente_seguimiento($id){
+		
+		$tablaMaestra_model = new TablaMaestra;
+		if($id>0){
+			$seguimiento = Seguimiento::find($id);
+		}else{
+			$seguimiento = new Seguimiento;
+		}
+		
+		$estado_seguimiento = $tablaMaestra_model->getMaestroByTipo("EST_SEG");
+		
+		return view('frontend.expediente.modal_seguimiento',compact('id','seguimiento','estado_seguimiento'));
 	
 	}
 	
@@ -286,9 +300,61 @@ class ExpedienteController extends Controller
 			$movExpediente->detalle = $request->detalle;
 			$movExpediente->save();
 		}
-		
-		
+			
     }
 	
+	public function send_seguimiento(Request $request){
+		
+		if($request->id == 0){
+			$seguimiento = new Seguimiento;
+			$seguimiento->id_mov_expediente = 1;
+			$seguimiento->fecha_seguimiento = $request->fecha_seguimiento;
+			$seguimiento->estado_proceso = $request->estado_proceso;
+			$seguimiento->Observacion = $request->Observacion;
+			$seguimiento->fecha_proximo_seguimiento = $request->fecha_proximo_seguimiento;
+			$seguimiento->estado = "1";
+			$seguimiento->save();		
+		}else{
+			$seguimiento = Seguimiento::find($request->id);
+			$seguimiento->id_mov_expediente = 1;
+			$seguimiento->fecha_seguimiento = $request->fecha_seguimiento;
+			$seguimiento->estado_proceso = $request->estado_proceso;
+			$seguimiento->Observacion = $request->Observacion;
+			$seguimiento->fecha_proximo_seguimiento = $request->fecha_proximo_seguimiento;
+			$seguimiento->estado = "1";
+			$seguimiento->save();
+		}
+			
+    }
 	
+	public function eliminar_litigante($id){
+
+		$litigante = Litigante::find($id);
+		$litigante->estado= "0";
+		$litigante->save();
+		
+		echo "success";
+
+    }
+	
+	public function eliminar_movimiento($id){
+
+		$movExpediente = MovExpediente::find($id);
+		$movExpediente->estado= "0";
+		$movExpediente->save();
+		
+		echo "success";
+
+    }
+	
+	public function eliminar_seguimiento($id){
+
+		$seguimiento = Seguimiento::find($id);
+		$seguimiento->estado= "0";
+		$seguimiento->save();
+		
+		echo "success";
+
+    }
+		
 }

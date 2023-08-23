@@ -18,8 +18,8 @@ Begin
 
 	p_pagina=(p_pagina::Integer-1)*p_limit::Integer;
 	
-	v_campos='dj.nombre distrito_judicial,oj.nombre organo_jurisdiccional,
-p.a_paterno||'' ''||p.a_materno||'' ''||p.nombres responsable,tm.denominacion estado_mov ';
+	v_campos='me.id,dj.nombre distrito_judicial,oj.nombre organo_jurisdiccional,
+p.a_paterno||'' ''||p.a_materno||'' ''||p.nombres responsable,tm.denominacion estado_mov,me.detalle ';
 
 	v_tabla='from mov_expedientes me 
 inner join tabla_maestras tm on tm.codigo=me.estado_mov and tm.tipo=''EST_MOV''
@@ -50,5 +50,3 @@ End
 
 $function$
 ;
-
-
