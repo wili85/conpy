@@ -13,16 +13,16 @@ $(document).ready(function () {
 		eliminarLit();
 	});
 	
-	$('#btnEliminarMov').on('click', function () {
-		eliminarMov();
+	$('#btnEliminarIng').on('click', function () {
+		eliminarIng();
 	});
 	
 	$('#btnEliminarSeg').on('click', function () {
 		eliminarSeg();
 	});
 	
-	$('#btnNuevoMov').on('click', function () {
-		modalMovimiento(0);
+	$('#btnNuevoIngreso').on('click', function () {
+		modalIngresoGasto(0);
 	});
 	
 	$('#btnNuevoSeg').on('click', function () {
@@ -1869,10 +1869,10 @@ function datatable_exp(){
 }
 
 
-function datatable_mov(){
-    var oTable = $('#tblMovimiento').dataTable({
+function datatable_ingreso_gastos(){
+    var oTable = $('#tblIngreso').dataTable({
         "bServerSide": true,
-        "sAjaxSource": "/expediente/listar_expediente_movimiento_ajax",
+        "sAjaxSource": "/ingreso_gasto/listar_ingreso_gasto_ajax",
         "bProcessing": true,
         "sPaginationType": "full_numbers",
         "bFilter": false,
@@ -1933,48 +1933,84 @@ function datatable_mov(){
             [	
 			 	{
                 "mRender": function (data, type, row, meta) {	
-                	var distrito_judicial = "";
-					if(row.distrito_judicial!= null)distrito_judicial = row.distrito_judicial;
-					return distrito_judicial;
+                	var tipo_gasto = "";
+					if(row.tipo_gasto!= null)tipo_gasto = row.tipo_gasto;
+					return tipo_gasto;
                 },
                 "bSortable": false,
                 "aTargets": [0]
                 },
 				{
                 "mRender": function (data, type, row) {
-                	var organo_jurisdiccional = "";
-					if(row.organo_jurisdiccional!= null)organo_jurisdiccional = row.organo_jurisdiccional;
-					return organo_jurisdiccional;
+                	var moneda = "";
+					if(row.moneda!= null)moneda = row.moneda;
+					return moneda;
                 },
                 "bSortable": false,
                 "aTargets": [1],
 				},
 				{
                 "mRender": function (data, type, row) {
-					var responsable = "";
-					if(row.responsable!= null)responsable = row.responsable;
-					return responsable;
+					var monto = "";
+					if(row.monto!= null)monto = row.monto;
+					return monto;
                 },
                 "bSortable": false,
                 "aTargets": [2],
                 },
 				{
                 "mRender": function (data, type, row) {
-					var estado_mov = "";
-					if(row.estado_mov!= null)estado_mov = row.estado_mov;
-					return estado_mov;
+					var fecha_vencimiento = "";
+					if(row.fecha_vencimiento!= null)fecha_vencimiento = row.fecha_vencimiento;
+					return fecha_vencimiento;
                 },
                 "bSortable": false,
                 "aTargets": [3],
                 },
 				{
                 "mRender": function (data, type, row) {
-					var detalle = "";
-					if(row.detalle!= null)detalle = row.detalle;
-					return detalle;
+					var fecha_pago = "";
+					if(row.fecha_pago!= null)fecha_pago = row.fecha_pago;
+					return fecha_pago;
                 },
                 "bSortable": false,
                 "aTargets": [4],
+                },
+				{
+                "mRender": function (data, type, row) {
+					var tipo_sustento = "";
+					if(row.tipo_sustento!= null)tipo_sustento = row.tipo_sustento;
+					return tipo_sustento;
+                },
+                "bSortable": false,
+                "aTargets": [5],
+                },
+				{
+                "mRender": function (data, type, row) {
+					var distrito_judicial = "";
+					if(row.distrito_judicial!= null)distrito_judicial = row.distrito_judicial;
+					return distrito_judicial;
+                },
+                "bSortable": false,
+                "aTargets": [6],
+                },
+				{
+                "mRender": function (data, type, row) {
+					var organo_jurisdiccional = "";
+					if(row.organo_jurisdiccional!= null)organo_jurisdiccional = row.organo_jurisdiccional;
+					return organo_jurisdiccional;
+                },
+                "bSortable": false,
+                "aTargets": [7],
+                },
+				{
+                "mRender": function (data, type, row) {
+					var estado_pag = "";
+					if(row.estado_pag!= null)estado_pag = row.estado_pag;
+					return estado_pag;
+                },
+                "bSortable": false,
+                "aTargets": [8],
                 },
 				
             ]
@@ -1982,31 +2018,31 @@ function datatable_mov(){
 
     });
 	
-	fn_util_LineaDatatable("#tblMovimiento");
+	fn_util_LineaDatatable("#tblIngreso");
 
-	$('#tblMovimiento tbody').on('dblclick', 'tr', function () {
+	$('#tblIngreso tbody').on('dblclick', 'tr', function () {
 		var anSelected = fn_util_ObtenerNumeroFila(oTable);
 		if (anSelected.length != 0) {
 			
-			var odtable = $("#tblMovimiento").DataTable();
+			var odtable = $("#tblIngreso").DataTable();
 			
-			var idMovimiento = odtable.row(this).data().id;
+			var idIngreso = odtable.row(this).data().id;
 			
-			modalMovimiento(idMovimiento);
+			modalIngresoGasto(idIngreso);
 			//obtenerExpediente(idLitigante);
 			
 		}
 	});
 	
-	$('#tblMovimiento tbody').on('click', 'tr', function () {
+	$('#tblIngreso tbody').on('click', 'tr', function () {
 		var anSelected = fn_util_ObtenerNumeroFila(oTable);
 		if (anSelected.length != 0) {
 			
-			var odtable = $("#tblMovimiento").DataTable();
+			var odtable = $("#tblIngreso").DataTable();
 			
-			var idMovimiento = odtable.row(this).data().id;
+			var idIngreso = odtable.row(this).data().id;
 			
-			$("#idMovimiento").val(idMovimiento);
+			$("#idIngreso").val(idIngreso);
 			
 		}
 	});
@@ -2966,13 +3002,13 @@ function modalLitigante(id){
 
 }
 
-function modalMovimiento(id){
+function modalIngresoGasto(id){
 	
 	$(".modal-dialog").css("width","85%");
 	$('#openOverlayOpc .modal-body').css('height', 'auto');
 
 	$.ajax({
-			url: "/expediente/modal_expediente_movimiento/"+id,
+			url: "/ingreso_gasto/modal_ingreso_gasto/"+id,
 			type: "GET",
 			success: function (result) {  
 					$("#diveditpregOpc").html(result);
@@ -3026,29 +3062,29 @@ function fn_eliminar_lit(id){
     });
 }
 
-function eliminarMov(){
+function eliminarIng(){
 	
-	var id = $("#idMovimiento").val();
+	var id = $("#idIngreso").val();
 	
     bootbox.confirm({ 
         size: "small",
-        message: "&iquest;Deseas eliminar el Movimiento?", 
+        message: "&iquest;Deseas eliminar el Ingreso?", 
         callback: function(result){
             if (result==true) {
-                fn_eliminar_mov(id);
+                fn_eliminar_ing(id);
             }
         }
     });
     $(".modal-dialog").css("width","30%");
 }
 
-function fn_eliminar_mov(id){
+function fn_eliminar_ing(id){
 	
 	$.ajax({
-            url: "/expediente/eliminar_movimiento/"+id,
+            url: "/ingreso_gasto/eliminar_ingreso_gasto/"+id,
             type: "GET",
             success: function (result) {
-				datatable_mov();
+				datatable_ingreso_gastos();
             }
     });
 }

@@ -411,7 +411,7 @@ label.form-control-sm{
 								role="tab"
 								aria-controls="information"
 								aria-selected="false"
-								onclick="datatable_mov()"
+								onclick="datatable_ingreso_gastos()"
 								>Ingresos</a>
 							
 							<a
@@ -515,15 +515,19 @@ label.form-control-sm{
 									<div class="card-body">
 									
 										<div class="table-responsive">
-											<input type="hidden" name="idMovimiento" id="idMovimiento" value="0">
-											<table id="tblMovimiento" class="table table-hover table-sm">
+											<input type="hidden" name="idIngreso" id="idIngreso" value="0">
+											<table id="tblIngreso" class="table table-hover table-sm">
 											<thead>
 											<tr style="font-size:13px">
+												<th>Tipo Gasto</th>
+												<th>Moneda</th>
+												<th>Monto</th>
+												<th>Fecha Vencimiento</th>
+												<th>Fecha Pago</th>
+												<th>Tipo Sustento</th>
 												<th>Distrito Judicial</th>
 												<th>Organo Jurisdiccional</th>
-												<th>Responsable</th>
 												<th>Estado</th>
-												<th>Detalle</th>
 											</tr>
 											</thead>
 											<tbody style="font-size:13px">
@@ -537,11 +541,11 @@ label.form-control-sm{
 								
 								<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
 									
-									<input class="btn btn-success btn-sm float-right" value="NUEVO" type="button" id="btnNuevoMov" style="width:120px;margin-right:15px"/>
+									<input class="btn btn-success btn-sm float-right" value="NUEVO" type="button" id="btnNuevoIngreso" style="width:120px;margin-right:15px"/>
 									
 									<br />
 												
-									<input class="btn btn-sm btn-danger float-right" value="ELIMINAR" name="guardar" type="button" id="btnEliminarMov" style="width:120px;margin-top:20px;margin-right:15px" />
+									<input class="btn btn-sm btn-danger float-right" value="ELIMINAR" name="guardar" type="button" id="btnEliminarIng" style="width:120px;margin-top:20px;margin-right:15px" />
 												
 								</div>
 								
