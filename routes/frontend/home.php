@@ -85,5 +85,11 @@ Route::post('ingreso_gasto/send_ingreso_gasto', [IngresoGastoController::class, 
 Route::get('ingreso_gasto/eliminar_ingreso_gasto/{id}', [IngresoGastoController::class, 'eliminar_ingreso_gasto'])->name('ingreso_gasto.eliminar_ingreso_gasto');
 
 
+Route::get('empresa', [EmpresaController::class, 'index'])->name('empresa');
+Route::post('empresa/listar_empresa_ajax', [EmpresaController::class, 'listar_empresa_ajax'])->name('empresa.listar_empresa_ajax');
+Route::get('empresa/modal_empresa/{id}', [EmpresaController::class, 'modal_empresa'])->name('empresa.modal_empresa');
+Route::post('empresa/send_empresa', [EmpresaController::class, 'send_empresa'])->name('empresa.send_empresa');
+
+Route::get('empresa/eliminar_empresa/{id}/{estado}', [EmpresaController::class, 'eliminar_empresa'])->name('empresa.eliminar_empresa');
 
 
