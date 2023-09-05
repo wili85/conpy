@@ -97,3 +97,6 @@ Route::get('persona', [PersonaController::class, 'index'])->name('persona');
 Route::post('persona/listar_persona_ajax', [PersonaController::class, 'listar_persona_ajax'])->name('persona.listar_persona_ajax');
 Route::get('persona/modal_persona/{id}', [PersonaController::class, 'modal_persona'])->name('persona.modal_persona');
 Route::post('persona/send_persona', [PersonaController::class, 'send_persona'])->name('persona.send_persona');
+Route::post('persona/upload', [PersonaController::class, 'upload'])->name('persona.upload');
+Route::get('persona/eliminar_persona/{id}/{estado}', [PersonaController::class, 'eliminar_persona'])->name('persona.eliminar_persona');
+

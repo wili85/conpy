@@ -72,18 +72,7 @@ class PersonaController extends Controller
 
         $sw = true;
 		$msg = "";
-
-        //$validaDni = $this -> consultaDniWS($request->numero_documento);
-        //print_r ($validaDni);
-        //exit();
-
-        
-        //print_r($buscapersona->count());
-        //exit();
-
-        //if ($buscapersona)
-
-        //$id_r =  $request->id;
+		$id_user = Auth::user()->id;
 
 		if($request->img_foto!=""){
 			$filepath_tmp = public_path('img/frontend/tmp/');
@@ -96,47 +85,29 @@ class PersonaController extends Controller
 		if($request->img_foto=="")$request->img_foto="ruta";
 
 		if($request->id == 0){
-            $buscapersona = Persona::where("numero_documento", $request->numero_documento)->where("estado", "1")->get();
+            $buscapersona = Persona::where("documento", $request->numero_documento)->where("estado", "1")->get();
 
             if ($buscapersona->count()==0){
 
                 $codigo=$request->codigo;
                 $telefono = $request->telefono;
                 $email = $request->email;
-
-                if($codigo==""){
-                    $array_tipo_documento = array('DNI' => 'DNI','CARNET_EXTRANJERIA' => 'CE','PASAPORTE' => 'PAS','RUC' => 'RUC','CEDULA' => 'CED','PTP/PTEP' => 'PTP/PTEP', 'CPP/CSR' => 'CPP/CSR');
-                    $codigo = $array_tipo_documento[$request->tipo_documento]."-".$request->numero_documento;
-                }
-                if($telefono=="")$telefono="999999999";
-                if($email=="")$email="mail@mail.com";
-
+                
                 $persona = new Persona;
-                $persona->tipo_documento = $request->tipo_documento;
-                $persona->numero_documento = $request->numero_documento;
-                $persona->apellido_paterno = $request->apellido_paterno;
-                $persona->apellido_materno = $request->apellido_materno;
+                $persona->id_tipo_documento = $request->tipo_documento;
+                $persona->documento = $request->numero_documento;
+                $persona->a_paterno = $request->apellido_paterno;
+                $persona->a_materno = $request->apellido_materno;
                 $persona->nombres = $request->nombres;
-                $persona->codigo = $codigo;
-                $persona->ocupacion = $request->ocupacion;
-                $persona->fecha_nacimiento = "1990-01-01";
-                $persona->sexo = "M";
-                //$persona->telefono = "999999999";
+                //$persona->fecha_nacimiento = "1990-01-01";
+                //$persona->sexo = "M";
                 $persona->telefono = $telefono;
-                //$persona->email = "mail@mail.com";
                 $persona->email = $email;
-                //$persona->foto = "mail@mail.com";
                 $persona->foto = $request->img_foto;
                 $persona->estado = "1";
-                $persona->ruc = $request->ruc;
-                $persona->flag_negativo = $request->flag_negativo;
+				$persona->id_usuario_inserta = $id_user;
+				$persona->id_usuario_actualiza = $id_user;
                 $persona->save();
-
-                $negativo = new Negativo;
-                $negativo->persona_id = $persona->id;
-                $negativo->flag_negativo = $request->flag_negativo;
-                $negativo->observacion = $request->observacion;
-                $negativo->fecha = Carbon::now()->format('Y-m-d');
             }
             else{
                 $sw = false;
@@ -146,44 +117,19 @@ class PersonaController extends Controller
 
 		}else{
             
-            //$buscapersona = Persona::where("numero_documento", $request->numero_documento)->where("estado", "1")->get();
-            //echo $buscapersona[0]->id;
-            //exit();
-            //$request->id = $buscapersona[0]->id;
-
 			$persona = Persona::find($request->id);
-			$persona->tipo_documento = $request->tipo_documento;
-			$persona->numero_documento = $request->numero_documento;
-			$persona->apellido_paterno = $request->apellido_paterno;
-			$persona->apellido_materno = $request->apellido_materno;
+			$persona->id_tipo_documento = $request->tipo_documento;
+			$persona->documento = $request->numero_documento;
+			$persona->a_paterno = $request->apellido_paterno;
+			$persona->a_materno = $request->apellido_materno;
 			$persona->nombres = $request->nombres;
-			$persona->codigo = $request->codigo;			
-            $persona->ocupacion = $request->ocupacion; 
 			$persona->telefono = $request->telefono;
 			$persona->email = $request->email;
 			$persona->foto = $request->img_foto;
-            $persona->ruc = $request->ruc;
-			$flag_negativo = $persona->flag_negativo;
-			
-            $persona->flag_negativo = $request->flag_negativo;
-            //print ($persona->ruc);exit();
-			$persona->save();
+			$persona->id_usuario_inserta = $id_user;
+			$persona->id_usuario_actualiza = $id_user;
+            $persona->save();
 
-            
-            if($flag_negativo!=$request->flag_negativo){
-                $negativo = new Negativo;
-                $negativo->persona_id = $persona->id;
-                $negativo->flag_negativo = $request->flag_negativo;
-                $negativo->observacion = $request->observacion;
-                $negativo->fecha = Carbon::now()->format('Y-m-d');
-                $negativo->save();
-            }else{
-                $negativo = Negativo::where('persona_id',$persona->id)->orderBy('id', 'desc')->first();
-                if($negativo && $negativo->observacion=="" && $request->observacion!=""){
-                    $negativo->observacion = $request->observacion;
-                    $negativo->save();
-                }
-             }
         }
 
         $array["sw"] = $sw;
@@ -201,6 +147,14 @@ class PersonaController extends Controller
 		echo $persona->id;
 
     }
+	
+	public function upload(Request $request){
 
+    	$filepath = public_path('img/frontend/tmp/');
+		move_uploaded_file($_FILES["file"]["tmp_name"], $filepath.$_FILES["file"]["name"]);
+		echo $_FILES['file']['name'];
+	}
+	
+	
 	
 }

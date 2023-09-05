@@ -482,8 +482,14 @@ container: '#myModal modal-body'
                             <div class="col-lg-12">
                                 <div class="form-group" style="padding-top:0px;padding-bottom:0px;margin-top:0px;margin-bottom:0px">
                                     <label class="control-label">Tipo Documento</label>
-                                    <select name="tipo_documento_" id="tipo_documento_" class="form-control form-control-sm" onChange="validaTipoDocumento()" value="<?php echo $persona->numero_documento?>" type="text" <?php echo $disabled?> >
-                                    
+                                    <select name="tipo_documento_" id="tipo_documento_" class="form-control form-control-sm" onChange="validaTipoDocumento()" type="text" <?php echo $disabled?> >
+                            			<option value="">--Seleccionar--</option>
+										<?php
+										foreach ($tipoDocumento as $row) {?>
+										<option value="<?php echo $row->id?>" <?php if($row->id == $persona->id_tipo_documento)echo "selected='selected'"?>><?php echo $row->documento?></option>
+										<?php 
+										}
+										?>										        
                                     </select>
                                 </div>
                             </div>
@@ -491,8 +497,7 @@ container: '#myModal modal-body'
                             <div class="col-lg-12">
                                 <div class="form-group" style="padding-top:0px;padding-bottom:0px;margin-top:0px;margin-bottom:0px">
                                     <label class="control-label">N. Documento</label>
-                                    <!--<input id="numero_documento_" name="numero_documento_" class="form-control form-control-sm"  value="<?php echo $persona->numero_documento?>" type="text">-->
-                                    <input id="numero_documento_" name="numero_documento_" class="form-control form-control-sm"  value="<?php echo $persona->numero_documento?>" type="text" <?php echo $readonly?> >
+                                    <input id="numero_documento_" name="numero_documento_" class="form-control form-control-sm"  value="<?php echo $persona->documento?>" type="text" <?php echo $readonly?> >
                                 </div>
                             </div>
 
@@ -534,7 +539,7 @@ container: '#myModal modal-body'
 						<div class="col-lg-12">
 							<div class="form-group" style="padding-top:0px;padding-bottom:0px;margin-top:0px;margin-bottom:0px">
 								<label class="control-label">Apellido Paterno</label>
-								<input id="apellido_paterno_" name="apellido_paterno_" class="form-control form-control-sm"  value="<?php echo $persona->apellido_paterno?>" type="text" readonly>
+								<input id="apellido_paterno_" name="apellido_paterno_" class="form-control form-control-sm"  value="<?php echo $persona->a_paterno?>" type="text" readonly>
 							</div>
 						</div>
 
@@ -545,7 +550,7 @@ container: '#myModal modal-body'
 						<div class="col-lg-12">
 							<div class="form-group" style="padding-top:0px;padding-bottom:0px;margin-top:0px;margin-bottom:0px">
 								<label class="control-label">Apellido Materno</label>
-								<input id="apellido_materno_" name="apellido_materno_" class="form-control form-control-sm"  value="<?php echo $persona->apellido_materno?>" type="text" readonly>
+								<input id="apellido_materno_" name="apellido_materno_" class="form-control form-control-sm"  value="<?php echo $persona->a_materno?>" type="text" readonly>
 							</div>
 						</div>
 
@@ -847,7 +852,7 @@ function validaTipoDocumento(){
 	$('#email_').val("");
 
 
-	if(tipo_documento == "DNI"){
+	if(tipo_documento == "1"){
 		$('#apellido_paterno_').attr('readonly', true);
 		$('#apellido_materno_').attr('readonly', true);
 		$('#nombres_').attr('readonly', true);
