@@ -118,7 +118,7 @@
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownPrueba" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">Mantenimiento</a>
                        <div class="dropdown-menu" aria-labelledby="navbarDropdownPrueba">
-                            <a href="" class="dropdown-item">Personas</a>
+                            <a href="persona" class="dropdown-item">Personas</a>
                             <a href="empresa" class="dropdown-item">Empresas</a>
 							<a href="" class="dropdown-item">Empleados</a>
 							<a href="" class="dropdown-item">Materia</a>
