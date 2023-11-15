@@ -220,6 +220,8 @@ function fn_save_ingreso_gasto(){
     
 	var _token = $('#_token').val();
 	var id = $('#id').val();
+	var id_proyecto = $('#idProyecto').val();
+	var id_expediente = $('#idExpediente').val();
 	var id_tipo_gasto = $('#id_tipo_gasto').val();
 	var id_tipo_moneda = $('#id_tipo_moneda').val();
 	var monto = $('#monto').val();
@@ -229,11 +231,12 @@ function fn_save_ingreso_gasto(){
 	var id_org_juris = $('#id_org_juris').val();
 	var estado_pago = $('#estado_pago').val();
 	var id_tipo_sustento = $('#id_tipo_sustento').val();
+	var id_tipo = $('#id_tipo').val();
 	
     $.ajax({
 			url: "/ingreso_gasto/send_ingreso_gasto",
             type: "POST",
-            data : {_token:_token,id:id,id_tipo_gasto:id_tipo_gasto,id_tipo_moneda:id_tipo_moneda,monto:monto,fecha_vencimiento:fecha_vencimiento,fecha_pago:fecha_pago,id_dist_judicial:id_dist_judicial,id_org_juris:id_org_juris,estado_pago:estado_pago,id_tipo_sustento:id_tipo_sustento},
+            data : {_token:_token,id:id,id_tipo:id_tipo,id_proyecto:id_proyecto,id_expediente:id_expediente,id_tipo_gasto:id_tipo_gasto,id_tipo_moneda:id_tipo_moneda,monto:monto,fecha_vencimiento:fecha_vencimiento,fecha_pago:fecha_pago,id_dist_judicial:id_dist_judicial,id_org_juris:id_org_juris,estado_pago:estado_pago,id_tipo_sustento:id_tipo_sustento},
             success: function (result) {
 				
 				$('#openOverlayOpc').modal('hide');
@@ -422,9 +425,38 @@ container: '#myModal modal-body'
 					
 					<div class="row" style="padding-left:10px">
 						
+						<?php if($proyecto->nombre_py!=""){?>
 						<div class="col-lg-12">
 							<div class="form-group">
-								<label class="control-label form-control-sm">Tipo Gasto</label>
+								<label class="control-label form-control-sm">Proyecto</label>
+								<input type="text" value="<?php echo $proyecto->nombre_py?>" class="form-control form-control-sm" readonly="readonly" >
+							</div>
+						</div>
+						<?php }?>
+						
+						<?php if($expediente->descripcion!=""){?>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label class="control-label form-control-sm">Expediente</label>
+								<input type="text" value="<?php echo $expediente->descripcion?>" class="form-control form-control-sm" readonly="readonly" >
+							</div>
+						</div>
+						<?php }?>
+						
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label class="control-label form-control-sm">Tipo</label>
+								<select name="id_tipo" id="id_tipo" class="form-control form-control-sm" onChange="">
+									<option value="">--Seleccionar--</option>
+									<option value="1" <?php if(1==$ingresosGasto->id_tipo)echo "selected='selected'"?> >Ingreso</option>
+									<option value="2" <?php if(2==$ingresosGasto->id_tipo)echo "selected='selected'"?> >Gasto</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label class="control-label form-control-sm">Concepto</label>
 								<select name="id_tipo_gasto" id="id_tipo_gasto" class="form-control form-control-sm" onChange="">
 									<option value="">--Seleccionar--</option>
 									<?php

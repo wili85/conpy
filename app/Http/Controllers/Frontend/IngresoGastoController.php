@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Inversionista;
 use App\Models\Proyecto;
+use App\Models\Expediente;
 use App\Models\TablaMaestra;
 use App\Models\Persona;
 use App\Models\IngresosGasto;
@@ -31,7 +32,7 @@ class IngresoGastoController extends Controller
 	public function listar_ingreso_gasto_ajax(Request $request){
 
 		$ingresosGasto_model = new IngresosGasto;
-		$p[]="";
+		$p[]=$request->id_proyecto;
 		$p[]="";
 		$p[]=$request->NumeroPagina;
 		$p[]=$request->NumeroRegistros;
@@ -50,11 +51,16 @@ class IngresoGastoController extends Controller
 
 	}
 	
-	public function modal_ingreso_gasto($id){
+	public function modal_ingreso_gasto($id_proyecto,$id_expediente,$id){
 	
 		$tablaMaestra_model = new TablaMaestra;
 		$organoJurisdiccionale_model = new OrganoJurisdiccionale;
 		$distritoJudiciale_model = new DistritoJudiciale;
+		
+		$proyecto = new Proyecto();
+		$expediente = new Expediente();
+		if($id_proyecto>0)$proyecto = Proyecto::find($id_proyecto);
+		if($id_expediente>0)$expediente = Expediente::find($id_expediente);
 		
 		if($id>0){
 			$ingresosGasto = IngresosGasto::find($id);
@@ -69,7 +75,7 @@ class IngresoGastoController extends Controller
 		$moneda = $tablaMaestra_model->getMaestroByTipo("MONEDA");
 		$tipo_sustento = $tablaMaestra_model->getMaestroByTipo("SUSTENTO");
 		
-		return view('frontend.gastos.modal_ingreso_gasto',compact('id','ingresosGasto','tipo_gasto','moneda','organo','distrito_judicial','estado_ingreso_gasto','tipo_sustento'));
+		return view('frontend.gastos.modal_ingreso_gasto',compact('id','ingresosGasto','tipo_gasto','moneda','organo','distrito_judicial','estado_ingreso_gasto','tipo_sustento','proyecto','expediente'));
 	
 	}
 	
@@ -77,8 +83,9 @@ class IngresoGastoController extends Controller
 		
 		if($request->id == 0){
 			$ingresosGasto = new IngresosGasto;
-			$ingresosGasto->id_expediente = 1;
-			$ingresosGasto->id_proyecto = 0;
+			$ingresosGasto->id_tipo = $request->id_tipo;
+			$ingresosGasto->id_expediente = $request->id_expediente;
+			$ingresosGasto->id_proyecto = $request->id_proyecto;
 			$ingresosGasto->id_tipo_gasto = $request->id_tipo_gasto;
 			$ingresosGasto->id_tipo_moneda = $request->id_tipo_moneda;
 			$ingresosGasto->monto = $request->monto;
@@ -93,8 +100,8 @@ class IngresoGastoController extends Controller
 			$ingresosGasto->save();		
 		}else{
 			$ingresosGasto = IngresosGasto::find($request->id);
-			$ingresosGasto->id_expediente = 1;
-			$ingresosGasto->id_proyecto = 0;
+			$ingresosGasto->id_expediente = $request->id_expediente;
+			$ingresosGasto->id_proyecto = $request->id_proyecto;
 			$ingresosGasto->id_tipo_gasto = $request->id_tipo_gasto;
 			$ingresosGasto->id_tipo_moneda = $request->id_tipo_moneda;
 			$ingresosGasto->monto = $request->monto;

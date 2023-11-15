@@ -1901,6 +1901,8 @@ function datatable_ingreso_gastos(){
 			var detalle_py_bus = $('#detalle_py_bus').val();
 			var estado = $('#estado').val();
 			var estado_py = $('#estado_py_bus').val();
+			var id_proyecto = $('#idProyecto').val();
+			var id_expediente = $('#idExpediente').val();
 			
 			var _token = $('#_token').val();
             oSettings.jqXHR = $.ajax({
@@ -1910,11 +1912,20 @@ function datatable_ingreso_gastos(){
                 "data":{NumeroPagina:iNroPagina,NumeroRegistros:iCantMostrar,
 						nombre_py_bus:nombre_py_bus,detalle_py_bus:detalle_py_bus,
 						estado:estado,estado_py:estado_py,
+						id_proyecto:id_proyecto,id_expediente:id_expediente,
 						_token:_token
                        },
                 "success": function (result) {
                     fnCallback(result);
 					
+					var id_proyecto = $('#idProyecto').val();
+					var id_expediente = $('#idExpediente').val();
+					$("#btnNuevoIngreso").attr("disabled",false);
+					$("#btnEliminarIng").attr("disabled",false);
+					if(id_proyecto == 0){
+						$("#btnNuevoIngreso").attr("disabled",true);
+						$("#btnEliminarIng").attr("disabled",true);
+					}
 					//var moneda = result.aaData[0].moneda;
 					//alert(moneda);
 					
@@ -1933,12 +1944,21 @@ function datatable_ingreso_gastos(){
             [	
 			 	{
                 "mRender": function (data, type, row, meta) {	
+                	var tipo = "";
+					if(row.tipo!= null)tipo = row.tipo;
+					return tipo;
+                },
+                "bSortable": false,
+                "aTargets": [0]
+                },
+				{
+                "mRender": function (data, type, row, meta) {	
                 	var tipo_gasto = "";
 					if(row.tipo_gasto!= null)tipo_gasto = row.tipo_gasto;
 					return tipo_gasto;
                 },
                 "bSortable": false,
-                "aTargets": [0]
+                "aTargets": [1]
                 },
 				{
                 "mRender": function (data, type, row) {
@@ -1947,7 +1967,7 @@ function datatable_ingreso_gastos(){
 					return moneda;
                 },
                 "bSortable": false,
-                "aTargets": [1],
+                "aTargets": [2],
 				},
 				{
                 "mRender": function (data, type, row) {
@@ -1956,7 +1976,7 @@ function datatable_ingreso_gastos(){
 					return monto;
                 },
                 "bSortable": false,
-                "aTargets": [2],
+                "aTargets": [3],
                 },
 				{
                 "mRender": function (data, type, row) {
@@ -1965,7 +1985,7 @@ function datatable_ingreso_gastos(){
 					return fecha_vencimiento;
                 },
                 "bSortable": false,
-                "aTargets": [3],
+                "aTargets": [4],
                 },
 				{
                 "mRender": function (data, type, row) {
@@ -1974,7 +1994,7 @@ function datatable_ingreso_gastos(){
 					return fecha_pago;
                 },
                 "bSortable": false,
-                "aTargets": [4],
+                "aTargets": [5],
                 },
 				{
                 "mRender": function (data, type, row) {
@@ -1983,7 +2003,7 @@ function datatable_ingreso_gastos(){
 					return tipo_sustento;
                 },
                 "bSortable": false,
-                "aTargets": [5],
+                "aTargets": [6],
                 },
 				{
                 "mRender": function (data, type, row) {
@@ -1992,7 +2012,7 @@ function datatable_ingreso_gastos(){
 					return distrito_judicial;
                 },
                 "bSortable": false,
-                "aTargets": [6],
+                "aTargets": [7],
                 },
 				{
                 "mRender": function (data, type, row) {
@@ -2001,7 +2021,7 @@ function datatable_ingreso_gastos(){
 					return organo_jurisdiccional;
                 },
                 "bSortable": false,
-                "aTargets": [7],
+                "aTargets": [8],
                 },
 				{
                 "mRender": function (data, type, row) {
@@ -2010,7 +2030,7 @@ function datatable_ingreso_gastos(){
 					return estado_pag;
                 },
                 "bSortable": false,
-                "aTargets": [8],
+                "aTargets": [9],
                 },
 				
             ]
@@ -2232,8 +2252,10 @@ function datatable_proy(){
                 "success": function (result) {
                     fnCallback(result);
 					
-					//var moneda = result.aaData[0].moneda;
-					//alert(moneda);
+					//fn_util_LineaDatatable("#tblProyecto");
+					//var id = result.aaData[0].id;
+					//var id_expediente = $('#idExpediente').val();
+					//alert(id);
 					
 					
                 },
@@ -2242,9 +2264,14 @@ function datatable_proy(){
             });
         },
 		"fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-			if (aData.moneda == "DOLARES") {
-				$('td', nRow).addClass('verde');
+			//var id_proyecto = $('#id_proyecto').val();
+			//alert(id_proyecto);
+			/*
+			if (aData.id == id_proyecto) {
+				//alert(aData.id);
+				$('td', nRow).addClass('row_selected');
 			} 
+			*/
 		},
         "aoColumnDefs":
             [	
@@ -2326,9 +2353,9 @@ function datatable_proy(){
 
 
     });
+	
+	fn_util_LineaDatatable("#tblProyecto");
 	/*
-	fn_util_LineaDatatable("#tblLitigante");
-
 	$('#tblLitigante tbody').on('dblclick', 'tr', function () {
 		var anSelected = fn_util_ObtenerNumeroFila(oTable);
 		if (anSelected.length != 0) {
@@ -2342,21 +2369,20 @@ function datatable_proy(){
 			
 		}
 	});
+	*/
 	
-	
-	$('#tblLitigante tbody').on('click', 'tr', function () {
+	$('#tblProyecto tbody').on('click', 'tr', function () {
 		var anSelected = fn_util_ObtenerNumeroFila(oTable);
 		if (anSelected.length != 0) {
 			
-			var odtable = $("#tblLitigante").DataTable();
+			var odtable = $("#tblProyecto").DataTable();
 			
-			var idLitigante = odtable.row(this).data().id;
-			
-			$("#idLitigante").val(idLitigante);
+			var idProyecto = odtable.row(this).data().id;
+			$("#idProyecto").val(idProyecto);
 			
 		}
 	});
-	*/
+	
 
 }
 
@@ -3006,9 +3032,12 @@ function modalIngresoGasto(id){
 	
 	$(".modal-dialog").css("width","85%");
 	$('#openOverlayOpc .modal-body').css('height', 'auto');
-
+	
+	var id_proyecto = $('#idProyecto').val();
+	var id_expediente = $('#idExpediente').val();
+	
 	$.ajax({
-			url: "/ingreso_gasto/modal_ingreso_gasto/"+id,
+			url: "/ingreso_gasto/modal_ingreso_gasto/"+id_proyecto+"/"+id_expediente+"/"+id,
 			type: "GET",
 			success: function (result) {  
 					$("#diveditpregOpc").html(result);

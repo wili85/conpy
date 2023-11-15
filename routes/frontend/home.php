@@ -80,7 +80,7 @@ Route::get('expediente/eliminar_movimiento/{id}', [ExpedienteController::class, 
 Route::get('expediente/eliminar_seguimiento/{id}', [ExpedienteController::class, 'eliminar_seguimiento'])->name('expediente.eliminar_seguimiento');
 
 Route::post('ingreso_gasto/listar_ingreso_gasto_ajax', [IngresoGastoController::class, 'listar_ingreso_gasto_ajax'])->name('ingreso_gasto.listar_ingreso_gasto_ajax');
-Route::get('ingreso_gasto/modal_ingreso_gasto/{id}', [IngresoGastoController::class, 'modal_ingreso_gasto'])->name('ingreso_gasto.modal_ingreso_gasto');
+Route::get('ingreso_gasto/modal_ingreso_gasto/{id_proyecto}/{id_expediente}/{id}', [IngresoGastoController::class, 'modal_ingreso_gasto'])->name('ingreso_gasto.modal_ingreso_gasto');
 Route::post('ingreso_gasto/send_ingreso_gasto', [IngresoGastoController::class, 'send_ingreso_gasto'])->name('ingreso_gasto.send_ingreso_gasto');
 Route::get('ingreso_gasto/eliminar_ingreso_gasto/{id}', [IngresoGastoController::class, 'eliminar_ingreso_gasto'])->name('ingreso_gasto.eliminar_ingreso_gasto');
 

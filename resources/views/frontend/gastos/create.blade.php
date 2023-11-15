@@ -412,8 +412,8 @@ label.form-control-sm{
 								aria-controls="information"
 								aria-selected="false"
 								onclick="datatable_ingreso_gastos()"
-								>Ingresos</a>
-							
+								>Ingresos - Gastos</a>
+							<!--
 							<a
 								class="nav-link"
 								id="seguimiento-tab"
@@ -423,8 +423,8 @@ label.form-control-sm{
 								aria-controls="seguimiento"
 								aria-selected="false"
 								onclick="datatable_seg()"
-								>Gastos</a>
-
+								>Seguimiento</a>
+							-->
 						</div>
 					</nav>
 									
@@ -475,6 +475,7 @@ label.form-control-sm{
 									
 									<div class="table-responsive">
 									<!--table-hover-grid-->
+									<input type="hidden" name="idExpediente" id="idExpediente" value="0">
 									<table id="tblSolicitud" class="table table-hover table-sm">
 									<thead>
 									<tr style="font-size:13px">
@@ -519,7 +520,8 @@ label.form-control-sm{
 											<table id="tblIngreso" class="table table-hover table-sm">
 											<thead>
 											<tr style="font-size:13px">
-												<th>Tipo Gasto</th>
+												<th>Tipo</th>
+												<th>Concepto</th>
 												<th>Moneda</th>
 												<th>Monto</th>
 												<th>Fecha Vencimiento</th>
@@ -607,7 +609,7 @@ label.form-control-sm{
 									<div class="card-body">
 									
 										<div class="table-responsive">
-											<input type="hidden" name="idLitigante" id="idLitigante" value="0">
+											<input type="hidden" name="idProyecto" id="idProyecto" value="0">
 											<table id="tblProyecto" class="table table-hover table-sm">
 											<thead>
 											<tr style="font-size:13px">
